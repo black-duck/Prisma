@@ -33,12 +33,12 @@ GameEngine = {
 	Entities: [],
 
 	init: function (canvas) {
-
+		
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
 		Player0.prisma = this.spawn('Prisma');
         
-        this.batchSpawn(500,[0,0,0,1]);
+        
 		//DRAFT
 		
 		//Drawer.image('atlas/bg');
@@ -83,9 +83,25 @@ GameEngine = {
 		}
 
 	},
+	//to do move ai to own class
+	aiClock:0,
+	
+	ai: function () {
+		if (this.aiClock > 50 ) {
+			GenPath.step();
+			var nextStep = GenPath.pull();
+			this.batchSpawn(600,nextStep);
+			this.aiClock = 0;
+		}
+		else {
+			this.aiClock+=1;
+		}
+		
+	},
+	
 	update: function () {
 		
-
+		this.ai();
         //this.ctx.font = "bold 22px sans-serif";
         //this.ctx.fillText("xxx", 100, 100);
         //console.log(Player0.prisma.currentcolor) 
@@ -189,7 +205,7 @@ GameEngine = {
 			else if (array[i] == 1) {
 				this.spawn ('Surface',x,y,'white');
 			}
-		y+=50;
+		y+=49;
 		}
 	},
 
