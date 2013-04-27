@@ -59,12 +59,12 @@ GenPath = ({
 		this.map.push(this.next);
 
 		//gc time
-		//for (var i=0; i < this.paths.length; i++) {
-		//	if (this.paths[i] === null ) {
-		//		this.paths.slice(i,1);
-		//	}
-	//	}
-		console.log(this.map);
+		for (var i=0; i < this.paths.length; i++) {
+			if (this.paths[i] === null ) {
+				this.paths.slice(i,1);
+			}
+		}
+	//	console.log(this.map);
 
 	},
 
@@ -107,14 +107,12 @@ GenPath = ({
 			}
 		}
 		//forks
-		//for (var i=0; i < this.maxNumPaths; i++) {
-		//	rand = Math.random();
-		//	if (rand < (this.paths.length-this.maxNumPaths)/this.maxNumPaths - 0.3) {
-		//		console.log('fork');
-		//		this.paths.push(path);
-		//	}
-		//}
-		console.log(path + " Move to:" + moveTo);
+		rand = Math.random();
+		if (rand < 0.2) {
+			console.log('fork');
+			this.paths.push(path);
+		}
+		//console.log(path + " Move to:" + moveTo);
 		
 			
 		if (path < moveTo) {
