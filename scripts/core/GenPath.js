@@ -6,11 +6,16 @@ GenPath = ({
 	next: [],
 	lookahead: 1,
 	DGD: 1,
+	mapHead:0,
 
 	init: function() {
-		this.map = [[0,0,0,0,0]];
-		this.paths = [0,1,2,3,4];
+		this.map = [[0,0,0,0,0,0,0,0]];
+		this.paths = [0,1,2,3,4,6];
 		this.maxNumPaths = this.paths.length;
+	},
+
+	pull: function() {
+		return this.map[this.mapHead++];
 	},
 
 	step: function() {
@@ -155,3 +160,4 @@ GenPath = ({
 
 
 });
+GenPath.init();
