@@ -56,6 +56,28 @@ GameEngine = {
 		
 		var ent = this.Entities;
 
+		ent.sort(function (a,b) { 
+			
+			var az=0;
+			var bz=0;
+
+			if (a.zIndex == undefined) {
+				az = 0;
+			}
+			else {
+				az =  a.zIndex;
+			}
+
+			if (b.zIndex == undefined) {
+				bz = 0;
+			}
+			else {
+				bz = b.zIndex;
+			}
+			
+			return az - bz; 
+		});
+
 		for ( i in ent ) {
 			ent[i].draw(ctx);	
 		}

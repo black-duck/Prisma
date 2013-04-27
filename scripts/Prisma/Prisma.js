@@ -1,9 +1,12 @@
 factory['Prisma'] = Class.extend({ 
 
 	_killed: false,
-
+	
+	
     currentcolor: "white",
     nextcolor: "red",
+
+	zIndex: 3,	
 
 	width: 60,
 	height: 60,
