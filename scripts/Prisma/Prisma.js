@@ -23,9 +23,23 @@ factory['Prisma'] = Class.extend({
 	},
 
     update: function() {
-	
+		
+		var w = 600;//GameEngine.canvas.height;
+		
 		this.pos.y += this.speed;
+		
+		if (this.pos.y < 0 +this.height/2) {
+			
+			this.pos.y = 0 +this.height/2;
+		}
+		//to do DRAFT
+		if (this.pos.y > w-this.height/2) {
+			
+			this.pos.y = w-this.height/2;
+		}
+		
 		this.speed = 0;
+		
 	},
 
 	draw: function (ctx) {
