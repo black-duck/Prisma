@@ -28,8 +28,7 @@ factory['prisma'] = Class.extend({
 
     update: function() {
 	
-		this.pos.x =  
-		this.pos.y = 
+		this.pos.y += speed.y;
 	
 	},
 
@@ -39,7 +38,7 @@ factory['prisma'] = Class.extend({
 	},	
 	
 	moveUp: function () {
-			speed.y = this.velocity.y;
+			speed.y = -this.velocity.y;
 	},
 	
 	moveDown:function () {
