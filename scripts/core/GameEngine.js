@@ -14,7 +14,8 @@ Player0 = {
 assets = { 
 
 	'background': 'atlas/bg.jpg',
-	'Prisma'	: 'atlas/prisma.png',
+	'Prisma'	: 'atlas/prisma.png', 
+    'Surface'   : 'atlas/red.png',
 }
 
 
@@ -35,6 +36,8 @@ GameEngine = {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
 		Player0.prisma = this.spawn('Prisma');
+        
+        this.spawn('Surface');
 		//DRAFT
 
 		//Drawer.image('atlas/bg');
