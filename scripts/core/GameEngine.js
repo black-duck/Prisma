@@ -62,12 +62,7 @@ GameEngine = {
 		else if(InputEngine.actions['go-down']) {
 			Player0.prisma.moveDown();
 		}
-		else if(InputEngine.actions['mousemove']) {	
-			Player0.prisma.move();
-			
-			//Draft inner InputEngine function
-			InputEngine.actions['mousemove'] = false;
-		}
+	
 
 		var ent = this.Entities;	
 
