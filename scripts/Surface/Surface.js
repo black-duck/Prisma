@@ -16,11 +16,13 @@ factory['Surface'] = Class.extend({
 	
 	img: assets['Surface'],
 
-	init: function(x, y) {
+	init: function(x, y, color) {
 	
-		x = this.pos.x;
-		y = this.pos.y;
-
+		this.pos.x = x;
+		this.pos.y = y;
+		if (this.color !== undefined ) {
+			this.color = color;
+		}
 	},
 
     update: function() {
@@ -28,7 +30,7 @@ factory['Surface'] = Class.extend({
 	},
 
 	draw: function (ctx) {
-		Drawer.image( this.img, this.pos.x, this.pos.y , this.width , this.height);
+		Drawer.rect(this.pos.x, this.pos.y, this.width, this.height, this.color, this.color);
 	},	
 	
 	
