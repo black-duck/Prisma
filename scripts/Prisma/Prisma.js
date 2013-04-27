@@ -87,11 +87,11 @@ factory['Prisma'] = Class.extend({
 	},
 	
 	moveLeft:function () {
-			this.speed.x = -this.maxSpeed;
+			this.speed.x = -this.maxSpeed/2;
 	},
 	
 	moveRight:function () {
-			this.speed.x = this.maxSpeed;
+			this.speed.x = this.maxSpeed/3;
 	},
 	
 	
