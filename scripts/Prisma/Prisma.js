@@ -2,6 +2,9 @@ factory['Prisma'] = Class.extend({
 
 	_killed: false,
 
+    currentcolor: "white",
+    nextcolor: "red",
+
 	width: 60,
 	height: 60,
 	
@@ -10,12 +13,18 @@ factory['Prisma'] = Class.extend({
 		y: 100
 	},
 	
-	speed: 0,
+	speed: { 
+		x:0,
+		y:0
+	},
+
+    nextSurface: false,
+	
 	maxSpeed: 10,
 	
 	img: assets['Prisma'],
 
-	init: function( x, y) {
+	init: function(x, y) {
 	
 		x = this.pos.x;
 		y = this.pos.y;
@@ -24,21 +33,41 @@ factory['Prisma'] = Class.extend({
 
     update: function() {
 		
-		var w = 600;//GameEngine.canvas.height;
 		
-		this.pos.y += this.speed;
+		var areaWidth = Player0.area.w;
+		var areaHeight = Player0.area.h;
+		var localHeight = this.height/2;
 		
-		if (this.pos.y < 0 +this.height/2) {
+		this.pos.y += this.speed.y;
+		this.pos.x += this.speed.x;
+		
+		if (this.pos.y < 0 +localHeight) {
 			
-			this.pos.y = 0 +this.height/2;
-		}
-		//to do DRAFT
-		if (this.pos.y > w-this.height/2) {
+			this.pos.y = 0 +localHeight;
 			
-			this.pos.y = w-this.height/2;
 		}
 		
-		this.speed = 0;
+		if (this.pos.y > areaHeight - localHeight) {
+			
+			this.pos.y = areaHeight - localHeight;
+			
+		}
+		
+		if (this.pos.x < 0 +this.width/2) {
+			
+			this.pos.x = 0 +this.width/2;
+		
+		}
+		
+		if (this.pos.x > areaWidth -this.width/2) {
+			
+			this.pos.x = areaWidth -this.width/2;
+		
+		}
+		
+		
+		this.speed.y = 0;
+		this.speed.x = 0;
 		
 	},
 
@@ -47,11 +76,19 @@ factory['Prisma'] = Class.extend({
 	},	
 	
 	moveUp: function () {
-			this.speed = -this.maxSpeed;
+			this.speed.y = -this.maxSpeed;
 	},
 	
 	moveDown:function () {
-			this.speed = this.maxSpeed;
+			this.speed.y = this.maxSpeed;
+	},
+	
+	moveLeft:function () {
+			this.speed.x = -this.maxSpeed;
+	},
+	
+	moveRight:function () {
+			this.speed.x = this.maxSpeed;
 	},
 	
 	

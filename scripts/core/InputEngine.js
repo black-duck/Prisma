@@ -29,10 +29,13 @@ InputEngine = {
             //move key bindings
             InputEngine.bind(87, 'go-up');
             InputEngine.bind(83, 'go-down');
+			InputEngine.bind(65,'go-left');
+			InputEngine.bind(68,'go-right');
 			
 			InputEngine.bind(38, 'go-up');
 			InputEngine.bind(40, 'go-down');
-
+			InputEngine.bind(37,'go-left');
+			InputEngine.bind(39,'go-right');
            
 			
             //event listeners
