@@ -38,7 +38,7 @@ GameEngine = {
 		this.ctx = canvas.getContext('2d');
 		Player0.prisma = this.spawn('Prisma');
         
-        this.spawn('Surface');
+        this.batchSpawn(500,[0,0,0,1]);
 		//DRAFT
 
 		//Drawer.image('atlas/bg');
@@ -171,13 +171,13 @@ GameEngine = {
 	//Drawer.rect(x, y, width, height, color, fillColor);
 	batchSpawn: function(x,array) {
 		var y=0;
-		for (color in array) {
+		for (var i=0; i<=array.length; i++ ) {
 			
-			if (color == 0) { 
-				spawn (x,y,'black'); 
+			if (array[i] == 0) { 
+				this.spawn ('Surface',x,y,'black'); 
 			}
-			else if (color == 1) {
-				spawn (x,y,'white');
+			else if (array[i] == 1) {
+				this.spawn ('Surface',x,y,'white');
 			}
 		y+=50;
 		}
