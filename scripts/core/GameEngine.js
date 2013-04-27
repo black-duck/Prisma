@@ -80,7 +80,8 @@ GameEngine = {
 				Player0.prisma.moveDown();
 			
 		}
-		else if(InputEngine.actions['go-left']) {
+		
+		if(InputEngine.actions['go-left']) {
 			
 				Player0.prisma.moveLeft();
 			
