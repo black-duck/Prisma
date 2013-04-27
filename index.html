@@ -92,12 +92,12 @@
 		var h = holder.innerHeight();
 		var w = 800* (h/600);
 		holder.html('<canvas id="canvas" width="'+w+'px" height="'+h+'px"></canvas>');
-		SoundManager.nextTrack();
+		//SoundManager.nextTrack();
         startGame();
     });
-    $("#StartMusic").click(function () {
-        SoundManager.maudio.pause();
-    });
+    //$("#StartMusic").click(function () {
+    //    SoundManager.maudio.pause();
+   // });
     $(".MenuButton").mouseenter(function () {
      // $(this).css("background-color","gray");
       $(this).effect("shake", { times:3 }, 500);

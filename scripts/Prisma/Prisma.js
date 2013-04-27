@@ -10,7 +10,8 @@ factory['Prisma'] = Class.extend({
 		y: 100
 	},
 	
-	speed: 1,
+	speed: 0,
+	maxSpeed: 10,
 	
 	img: assets['Prisma'],
 
@@ -24,7 +25,7 @@ factory['Prisma'] = Class.extend({
     update: function() {
 	
 		this.pos.y += this.speed;
-	
+		this.speed = 0;
 	},
 
 	draw: function (ctx) {
@@ -32,11 +33,11 @@ factory['Prisma'] = Class.extend({
 	},	
 	
 	moveUp: function () {
-			speed = -this.speed;
+			this.speed = -this.maxSpeed;
 	},
 	
 	moveDown:function () {
-			speed = this.speed;
+			this.speed = this.maxSpeed;
 	},
 	
 	

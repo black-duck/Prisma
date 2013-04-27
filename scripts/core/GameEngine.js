@@ -1,7 +1,7 @@
 //DRAFT - to be modified area start
 Player0 = {
     playing: true,
-	Prisma: null
+	prisma: null
 
 }
 
@@ -29,7 +29,7 @@ GameEngine = {
 
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
-
+		Player0.prisma = this.spawn('Prisma');
 		//DRAFT
 
 		//Drawer.image('atlas/bg');
@@ -57,12 +57,16 @@ GameEngine = {
 
 		//DRAFT start
 		if(InputEngine.actions['go-up']) {
-			Player0.Prisma.moveUp();	
+			
+				Player0.prisma.moveUp();	
+			
 		}
 		else if(InputEngine.actions['go-down']) {
-			Player0.Prisma.moveDown();
+			
+				Player0.prisma.moveDown();
+			
 		}
-	
+		
 
 		var ent = this.Entities;	
 
