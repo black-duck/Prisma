@@ -8,8 +8,8 @@ factory['Prisma'] = Class.extend({
 
 	zIndex: 3,	
 
-	width: 30,
-	height: 30,
+	width: 20,
+	height: 20,
 	
 	pos: {
 		x: 100,
@@ -23,7 +23,7 @@ factory['Prisma'] = Class.extend({
 
     nextSurface: false,
 	
-	maxSpeed: 5,
+	maxSpeed: 2,
 	
 	img: assets['Prisma'],
 
@@ -43,6 +43,7 @@ factory['Prisma'] = Class.extend({
 		
 		this.pos.y += this.speed.y;
 		this.pos.x += this.speed.x;
+		
 		
 		if (this.pos.y < 0 +localHeight) {
 			

@@ -90,7 +90,7 @@ GameEngine = {
 		if (this.aiClock > 50 ) {
 			GenPath.step();
 			var nextStep = GenPath.pull();
-			this.batchSpawn(600,nextStep);
+			this.batchSpawn(1000,nextStep);
 			this.aiClock = 0;
 		}
 		else {
@@ -205,7 +205,7 @@ GameEngine = {
 			else if (array[i] == 1) {
 				this.spawn ('Surface',x,y,'white');
 			}
-		y+=49;
+		y+=50;
 		}
 	},
 
