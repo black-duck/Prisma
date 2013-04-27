@@ -40,7 +40,7 @@ GameEngine = {
         
         this.batchSpawn(500,[0,0,0,1]);
 		//DRAFT
-
+		
 		//Drawer.image('atlas/bg');
 	},
 
@@ -117,10 +117,13 @@ GameEngine = {
 		var ent = this.Entities;	
 
 		for (var i=ent.length; i-- ; i) {	
-		    ent[i].update();
 
+			ent[i].update();
             if (ent[i].name == "Surface") {
-                
+
+            
+				//TODO
+				//brace your selfs, sophron angly code is coming
                 /*
                 console.log(Player0.prisma.pos.x);
                 console.log(Player0.prisma.pos.y);
@@ -144,10 +147,17 @@ GameEngine = {
                         }
                 }
             }
+		    
+			
 		}
 
-        
-
+		//Draft Garbage collector
+		//TODO
+		for (var i=ent.length; i-- ; i) {	
+        	if ( ent[i] &&  ent[i].pos.x < -50 ) {
+				ent.splice( i, 1);		
+			}
+		}
 
 	},
 
