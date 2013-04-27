@@ -168,7 +168,20 @@ GameEngine = {
 		this.Entities.push(ent);
 		return ent;
 	},
-	
+	//Drawer.rect(x, y, width, height, color, fillColor);
+	batchSpawn: function(x,array) {
+		var y=0;
+		for (color in array) {
+			
+			if (color == 0) { 
+				spawn (x,y,'black'); 
+			}
+			else if (color == 1) {
+				spawn (x,y,'white');
+			}
+		y+=50;
+		}
+	},
 
 	removeEntity: function(ent) {
 
