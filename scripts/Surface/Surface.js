@@ -1,14 +1,17 @@
 factory['Surface'] = Class.extend({ 
 
+    name: 'Surface',
+    color: 'red',
+
 	_killed: false,
 
-	width: 60,
-	height: 60,
+	width: 50,
+	height: 50,
     speed: 1,
 	
 	pos: {
-		x: 500,
-		y: 500
+		x: 200,
+		y: 200
 	},
 	
 	img: assets['Surface'],

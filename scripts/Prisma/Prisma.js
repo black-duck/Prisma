@@ -2,6 +2,9 @@ factory['Prisma'] = Class.extend({
 
 	_killed: false,
 
+    currentcolor: "white",
+    nextcolor: "red",
+
 	width: 60,
 	height: 60,
 	
@@ -14,6 +17,8 @@ factory['Prisma'] = Class.extend({
 		x:0,
 		y:0
 	},
+
+    nextSurface: false,
 	
 	maxSpeed: 10,
 	
