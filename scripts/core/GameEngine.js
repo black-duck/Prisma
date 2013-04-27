@@ -1,8 +1,13 @@
 //DRAFT - to be modified area start
 Player0 = {
     playing: true,
-	prisma: null
-
+	prisma: null,
+	area: { 
+		x:0,
+		y:0,
+		w:300,
+		h:600
+	}
 }
 
 
@@ -66,8 +71,17 @@ GameEngine = {
 				Player0.prisma.moveDown();
 			
 		}
+		else if(InputEngine.actions['go-left']) {
+			
+				Player0.prisma.moveLeft();
+			
+		}
+		else if(InputEngine.actions['go-right']) {
+			
+				Player0.prisma.moveRight();
+			
+		}
 		
-
 		var ent = this.Entities;	
 
 		for (var i=ent.length; i-- ; i) {
