@@ -31,19 +31,20 @@ factory['Prisma'] = Class.extend({
 		
 		var areaWidth = Player0.area.w;
 		var areaHeight = Player0.area.h;
+		var localHeight = this.height/2;
 		
 		this.pos.y += this.speed.y;
 		this.pos.x += this.speed.x;
 		
-		if (this.pos.y < 0 +this.height/2) {
+		if (this.pos.y < 0 +localHeight) {
 			
-			this.pos.y = 0 +this.height/2;
+			this.pos.y = 0 +localHeight;
 			
 		}
-		//to do DRAFT
-		if (this.pos.y > areaHeight-this.heidght/2) {
+		
+		if (this.pos.y > areaHeight - localHeight) {
 			
-			this.pos.y = areaHeight-this.height/2;
+			this.pos.y = areaHeight - localHeight;
 			
 		}
 		
@@ -58,7 +59,6 @@ factory['Prisma'] = Class.extend({
 			this.pos.x = areaWidth -this.width/2;
 		
 		}
-		
 		
 		
 		this.speed.y = 0;
