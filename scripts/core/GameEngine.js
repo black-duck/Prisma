@@ -2,13 +2,17 @@
 Player0 = {
     playing: true,
 	prisma: null
+
 }
 
 
 assets = { 
-	'background':
-	'prisma':
+
+	'background': 'atlas/bg.jpg',
+	'prisma'	: 'atlas/prisma.png',
 }
+
+
 
 factory = {};
 
@@ -27,8 +31,8 @@ GameEngine = {
 		this.ctx = canvas.getContext('2d');
 
 		//DRAFT
-		Drawer.useAtlas('atlas/atlas');
 
+		//Drawer.image('atlas/bg');
 	},
 
 	draw: function () {
@@ -50,6 +54,7 @@ GameEngine = {
 	},
 	update: function () {
 		
+
 		//DRAFT start
 		if(InputEngine.actions['go-up']) {
 			Player0.prisma.moveUp();	
@@ -72,6 +77,7 @@ GameEngine = {
 			
 		}
 
+
 	},
 
 	
@@ -79,7 +85,9 @@ GameEngine = {
 	
 		var args = Array.prototype.slice.call(arguments, 1);
 
+
 		var Temp = function(){}
+
 		var inst, ent;
 
 		Temp.prototype = factory[entityName].prototype;
