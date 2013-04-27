@@ -87,7 +87,7 @@ GameEngine = {
 	aiClock:0,
 	
 	ai: function () {
-		if (this.aiClock > 50 ) {
+		if (this.aiClock > 47 ) {
 			GenPath.step();
 			var nextStep = GenPath.pull();
 			this.batchSpawn(600,nextStep);

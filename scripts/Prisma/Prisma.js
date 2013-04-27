@@ -8,8 +8,8 @@ factory['Prisma'] = Class.extend({
 
 	zIndex: 3,	
 
-	width: 30,
-	height: 30,
+	width: 10,
+	height: 10,
 	
 	pos: {
 		x: 100,
@@ -23,7 +23,7 @@ factory['Prisma'] = Class.extend({
 
     nextSurface: false,
 	
-	maxSpeed: 5,
+	maxSpeed: 2,
 	
 	img: assets['Prisma'],
 
