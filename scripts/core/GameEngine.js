@@ -7,7 +7,7 @@ Player0 = {
 
 assets = { 
 	'background': 'atlas/bg.jpg',
-	'prisma'	: 'img/prisma.png',
+	'prisma'	: 'atlas/prisma.png',
 }
 
 
@@ -50,7 +50,8 @@ GameEngine = {
 	},
 	update: function () {
 		
-        /*
+    /*
+        
 		for (var i=ent.length; i-- ; i) {
 		
 			if (ent[i]._killed === true) {
@@ -69,7 +70,7 @@ GameEngine = {
 			ent.splice(dead[i], 1);
 
 		}
-        */
+      */  
 
 	},
 
@@ -78,7 +79,7 @@ GameEngine = {
 	
 		var args = Array.prototype.slice.call(arguments, 1);
 
-		var Temp = function(){}
+		var Temp = function() {}
 		var inst, ent;
 
 		Temp.prototype = factory[entityName].prototype;
