@@ -1,4 +1,4 @@
-factory['prisma'] = Class.extend({ 
+factory['Prisma'] = Class.extend({ 
 
 	_killed: false,
 
@@ -10,39 +10,33 @@ factory['prisma'] = Class.extend({
 		y: 100
 	},
 	
-	velocity: {
-		x: 1,
-		y: 1
-	},
+	speed: 1,
 	
-	img: assets['prisma'],
+	img: assets['Prisma'],
 
-	init: function( x, y, settings) {
+	init: function( x, y) {
 	
 		x = this.pos.x;
 		y = this.pos.y;
-		
-		});
-		
+			
 	},
 
     update: function() {
 	
-		this.pos.y += speed.y;
+		this.pos.y += this.speed;
 	
 	},
 
 	draw: function (ctx) {
-		Drawer.image( this.img, this.pos.x, this.pos.y, this.angle, 
-						this.size.x, this.size.y);
+		Drawer.image( this.img, this.pos.x, this.pos.y , this.width , this.height);
 	},	
 	
 	moveUp: function () {
-			speed.y = -this.velocity.y;
+			speed = -this.speed;
 	},
 	
 	moveDown:function () {
-			speed.y = this.velocity.y;
+			speed = this.speed;
 	},
 	
 	

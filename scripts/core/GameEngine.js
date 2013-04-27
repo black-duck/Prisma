@@ -1,7 +1,7 @@
 //DRAFT - to be modified area start
 Player0 = {
     playing: true,
-	prisma: null
+	Prisma: null
 
 }
 
@@ -9,7 +9,7 @@ Player0 = {
 assets = { 
 
 	'background': 'atlas/bg.jpg',
-	'prisma'	: 'atlas/prisma.png',
+	'Prisma'	: 'atlas/prisma.png',
 }
 
 
@@ -57,10 +57,10 @@ GameEngine = {
 
 		//DRAFT start
 		if(InputEngine.actions['go-up']) {
-			Player0.prisma.moveUp();	
+			Player0.Prisma.moveUp();	
 		}
 		else if(InputEngine.actions['go-down']) {
-			Player0.prisma.moveDown();
+			Player0.Prisma.moveDown();
 		}
 	
 
