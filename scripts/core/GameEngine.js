@@ -60,9 +60,8 @@ GameEngine = {
 		var ctx = this.ctx;
 		
 		//DRAFT start
-		ctx.drawImage( Loader.load(assets['background']),
-						0, 0, 
-						this.canvas.width, this.canvas.height);
+		ctx.fillStyle = "rgb(200,0,0)";
+		ctx.fillRect (0, 0, this.canvas.width, this.canvas.height);
 		//DRAFT end
 		
 		var ent = this.Entities;
@@ -215,6 +214,12 @@ GameEngine = {
 			}
 			else if (array[i] == 1) {
 				this.spawn ('Surface',x,y,'white');
+			}
+			else if (array[i] == 2) {
+				this.spawn ('Surface',x,y,'green');
+			}
+			else if (array[i] == 3) {
+				this.spawn ('Surface',x,y,'blue');
 			}
 		y+=50;
 		}
