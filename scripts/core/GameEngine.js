@@ -25,8 +25,6 @@ factory = {};
 
 GameEngine = { 
 
-    correlations: {"red": "blue", "blue": "green", "green": "red"},
-
 	ctx: null,
 	canvas: null,
 
@@ -112,13 +110,24 @@ GameEngine = {
 		
 	},
 	
+	physic: function () {
+
+		var ent = this.Entities;
+		for (var i in ent) {
+			if (Player0.prisma == ent[i]) 
+				continue;
+			if (ent[i] === undefined)
+				continue;
+			if (Math.abs(Player0.prisma.pos.x - ent[i].pos.x) <  Player0.prisma.width/2 + ent[i].width/2 &&			
+				Math.abs(Player0.prisma.pos.y - ent[i].pos.y) <  Player0.prisma.height/2 + ent[i].height/2) {
+					Player0.prisma.collision(ent[i]);					
+					console.log('!');
+			}
+		}
+	},
 	update: function () {
 		
 		this.ai();
-        //this.ctx.font = "bold 22px sans-serif";
-        //this.ctx.fillText("xxx", 100, 100);
-        //console.log(Player0.prisma.currentcolor) 
-       // console.log(Player0.prisma.nextcolor)
 
 		//DRAFT start
 		if(InputEngine.actions['go-up']) {
@@ -143,42 +152,12 @@ GameEngine = {
 			
 		}
 		
-		var ent = this.Entities;	
-
+		var ent = this.Entities;
 		for (var i=ent.length; i-- ; i) {	
-
-			ent[i].update();
-            if (ent[i].name == "Surface") {
-
-            
-				//TODO
-				//brace your selfs, sophron angly code is coming
-                /*
-                console.log(Player0.prisma.pos.x);
-                console.log(Player0.prisma.pos.y);
-                console.log(ent[i].pos.x);
-                console.log(ent[i].pos.y);
-                */
-                if ((Player0.prisma.pos.x < ent[i].pos.x + ent[i].width/2) && 
-                    (Player0.prisma.pos.x > ent[i].pos.x - ent[i].width/2) && 
-                    (Player0.prisma.pos.y < ent[i].pos.y + ent[i].height/2) && 
-                    (Player0.prisma.pos.y > ent[i].pos.y - ent[i].height/2)) {
-                        //console.log("i'm in");
-                        if (Player0.prisma.currentcolor != ent[i].color) {
-                            if (Player0.prisma.nextcolor != ent[i].color) {
-                                //checkPoint();
-                            }
-                            else if (Player0.prisma.nextcolor == ent[i].color) {
-                                console.log("i'm in");
-                                Player0.prisma.currentcolor = ent[i].color;
-                                Player0.prisma.nextcolor = this.correlations[ent[i].color];
-                            }
-                        }
-                }
-            }
-		    
-			
+			ent[i].update();   	 
 		}
+
+		this.physic();
 
 		//Draft Garbage collector
 		//TODO
@@ -212,20 +191,8 @@ GameEngine = {
 		var y=0;
 		for (var i=0; i<=array.length; i++ ) {
 			
-			if (array[i] == 0) { 
-				this.spawn ('Surface',x,y,'green'); 
-			}
-			else if (array[i] == 1) {
-				this.spawn ('Surface',x,y,'blue');
-			}
-			else if (array[i] == 2) {
-				this.spawn ('Surface',x,y,'red');
-			}
-			else if (array[i] == 3) {
-				this.spawn ('Surface',x,y,'yellow');
-			}
-		
-		y+=50;
+			this.spawn ('Surface',x,y,array[i]); 
+			y+=50;
 		}
 	},
 

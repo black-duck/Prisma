@@ -3,8 +3,7 @@ factory['Prisma'] = Class.extend({
 	_killed: false,
 	
 	
-    currentcolor: "white",
-    nextcolor: "red",
+    color: null,   
 
 	zIndex: 3,	
 
@@ -84,7 +83,6 @@ factory['Prisma'] = Class.extend({
 		
 		
 		
-		console.log(this.pos.y);
 		this.speed.y = 0;
 		this.speed.x = 0;
 		
@@ -93,7 +91,23 @@ factory['Prisma'] = Class.extend({
 	draw: function (ctx) {
 		Drawer.image( this.img, this.pos.x, this.pos.y , this.width , this.height);
 	},	
-	
+
+	collision: function (other) {
+
+		if (this.color == null ) {
+			this.color = other.color;
+		}
+		else {
+			if (GenPath._canTransition(this.color, other.color)) {
+				this.color = other.color;
+			}
+			else {
+				console.log('Game over');
+			}
+
+		}
+
+	},
 	moveUp: function () {
 			this.speed.y = -this.maxSpeed;
 	},

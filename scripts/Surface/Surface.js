@@ -1,7 +1,9 @@
 factory['Surface'] = Class.extend({ 
 
-    name: 'Surface',
-    color: 'red',
+	colors: ['green','blue','red','yellow'],
+
+	name: 'Surface',
+    color: 0,
 
 	_killed: false,
 
@@ -30,7 +32,7 @@ factory['Surface'] = Class.extend({
 	},
 
 	draw: function (ctx) {
-		Drawer.rect(this.pos.x, this.pos.y, this.width, this.height, this.color, this.color);
+		Drawer.rect(this.pos.x, this.pos.y, this.width, this.height, this.colors[this.color], this.colors[this.color]);
 	},	
 	
 	
