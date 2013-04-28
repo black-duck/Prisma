@@ -69,7 +69,6 @@ GenPath = ({
 			
 			if (last[i] == null ) {
 			
-			if (last3[i] == last2[i]
 				//Pick opposite color
 				var enemyColors = this.enemies[last2[i]];
 				var opColor = enemyColors[Math.floor(Math.random()*enemyColors.length)];
