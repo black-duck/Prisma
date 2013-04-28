@@ -83,7 +83,8 @@
     <div id="SplashScreen">
     <h2>Prisma</h2>
     <div id="StartButton" class="MenuButton">Play!</div>
-	<div id="StartMusic" class="MenuButton">Music OFF</div>
+	<div id="MuteButton" class="MenuButton">Mute</div>
+	<div id="DisableMusic" class="MenuButton">Disable Music<br/>(Dev Only)</div>
 	</div>
     </div> 
 	<div id="canvasHolder"></div>	
@@ -94,11 +95,14 @@
 		var h = holder.innerHeight();
 		var w = 800* (h/600);
 		holder.html('<canvas id="canvas" width="'+w+'px" height="'+h+'px"></canvas>');
-		SoundManager.nextTrack();
+		//SoundManager.nextTrack(); //To be removed
         startGame();
     });
-    $("#StartMusic").click(function () {
-        SoundManager.maudio.pause();
+    $("#DisableMusic").click(function () {
+        SoundManager.disableSound();
+    });
+	$("#MuteButton").click(function () {
+        SoundManager.muteAll();
     });
     $(".MenuButton").mouseenter(function () {
      // $(this).css("background-color","gray");
