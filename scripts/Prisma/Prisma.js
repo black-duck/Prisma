@@ -12,8 +12,8 @@ factory['Prisma'] = Class.extend({
 	height: 20,
 	
 	pos: {
-		x: 100,
-		y: 100
+		x: 150,
+		y: 300
 	},
 	
 	speed: { 
@@ -40,10 +40,20 @@ factory['Prisma'] = Class.extend({
 		var areaWidth = Player0.area.w;
 		var areaHeight = Player0.area.h;
 		var localHeight = this.height/2;
+		var poPo=Drawer.portPos.y;
 		
 		this.pos.y += this.speed.y;
 		this.pos.x += this.speed.x;
 		
+		
+		poPo = this.pos.y - areaHeight/2;
+		
+		if (this.pos.y < areaHeight/2) {
+			poPo= 0;
+		
+		}
+		
+		//if (this.pos.y > areaHeight
 		
 		if (this.pos.y < 0 +localHeight) {
 			
@@ -68,6 +78,9 @@ factory['Prisma'] = Class.extend({
 			this.pos.x = areaWidth -this.width/2;
 		
 		}
+			
+		
+		
 		
 		
 		this.speed.y = 0;
