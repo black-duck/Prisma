@@ -92,8 +92,8 @@
     $("#StartButton").click(function () {
 		$("#Space").remove();
 		var holder = $("#canvasHolder");
+		var w = holder.innerWidth();
 		var h = holder.innerHeight();
-		var w = 800* (h/600);
 		holder.html('<canvas id="canvas" width="'+w+'px" height="'+h+'px"></canvas>');
 		//SoundManager.nextTrack(); //To be removed
         startGame();
