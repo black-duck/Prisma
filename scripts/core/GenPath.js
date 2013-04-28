@@ -9,17 +9,22 @@ GenPath = ({
 	mapHead:0,
 	lines: 0,
 
-	friends:{
+	friends: {
 			 0:[0,2],	
 			 1:[1],
-			 2:[0,2,3],
-			 3:[3,2,0]			 	
+			 2:[2,3,0],
+			 3:[3,2]			 	
+			},
+	enemies: { 0:[1,3],
+			   1:[0,2,3],
+		       2:[1],
+               3:[1,0]
 			},
 
 	init: function() {
-		this.map = [[0,0,0,0,0,0,0,0]];
+		this.map = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]];
 		this.lines = this.map[0].length;
-		this.paths = [0,1,2,3,4,6];		
+		this.paths = [0,1,2,3,4,6,7];		
 		this.maxNumPaths = this.paths.length;
 	},
 
@@ -34,6 +39,7 @@ GenPath = ({
 	step: function() {
 		var newPath;
 		var last = this.map[this.map.length - 1];
+		var last2 = this.map[this.map.length - 2];
 		var gc = [];
 		this.next = new Array(this.lines);
 		
@@ -59,10 +65,16 @@ GenPath = ({
 			}
 		}
 			
-		for (var i=0; i < this.next.length; i++) {
+		for (var i=0; i < last.length; i++) {
 			
 			if (last[i] == null ) {
-				last[i] = 1;
+			
+			if (last3[i] == last2[i]
+				//Pick opposite color
+				var enemyColors = this.enemies[last2[i]];
+				var opColor = enemyColors[Math.floor(Math.random()*enemyColors.length)];
+				
+				last[i] = opColor;
 			}
 		}
 		
@@ -92,6 +104,8 @@ GenPath = ({
 				this._canTransition(last[path],last[i])) {
 				possiblePos[p] = i;		
 				posCost[p] = Math.pow(Math.E, -Math.abs(i-path));
+				if ( i == path )
+					posCost[p] /= 2;
 				p++;
 			}
 		}
@@ -117,7 +131,7 @@ GenPath = ({
 		}
 		//forks
 		rand = Math.random();
-		if (rand < 0.2) {
+		if (rand < 0.15) {
 			this.paths.push(path);
 		}
 		
@@ -127,20 +141,30 @@ GenPath = ({
 			var posColors = this.friends[color];
 			color = posColors[Math.floor(Math.random()*posColors.length)];
 		}
-			
+		
+		//Pick opposite color
+		var enemyColors = this.enemies[color];
+		var opColor = enemyColors[Math.floor(Math.random()*enemyColors.length)];
+		
+		if (this.next[i] === null )
+			this.next[i] = opColor;
+	
 		if (path < moveTo) {
 			for (var i=path+1; i <= moveTo; i++) {
 				last[i] = color; //create vertical path
-	//			this.next[i] = 1; //set wall 
+				
+				if (this.next[i] === null )
+					this.next[i] = opColor; //set wall 
 			}			
 		}
 		else if (path > moveTo) {
 			for (var i=path-1; i >= moveTo; i--) {
 				last[i] = color; //create vertical path
-		//		if ( last[i] === null ) {
-	//				this.next[i] = 1;
-		//		}
-			}				
+
+				if (this.next[i] === null )
+					this.next[i] = opColor; //set wall 
+			}			
+							
 		}
 
 		//Can I merge?
