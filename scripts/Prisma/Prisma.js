@@ -40,20 +40,22 @@ factory['Prisma'] = Class.extend({
 		var areaWidth = Player0.area.w;
 		var areaHeight = Player0.area.h;
 		var localHeight = this.height/2;
-		var poPo=Drawer.portPos.y;
+		
 		
 		this.pos.y += this.speed.y;
 		this.pos.x += this.speed.x;
 		
 		
-		poPo = this.pos.y - areaHeight/2;
+		Drawer.portPos.y = this.pos.y - areaHeight/2;
 		
 		if (this.pos.y < areaHeight/2) {
-			poPo= 0;
+			Drawer.portPos.y = 0;
 		
 		}
 		
-		//if (this.pos.y > areaHeight
+		if (this.pos.y > areaHeight - Drawer.portPos.y) {
+			Drawer.portPos.y = areaHeight - GameEngine.canvas.height;
+		}
 		
 		if (this.pos.y < 0 +localHeight) {
 			

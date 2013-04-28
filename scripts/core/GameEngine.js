@@ -49,7 +49,7 @@ GameEngine = {
 
 	setLines: function (lines) {
 		var SIZE_OF_LINE = 50;
-		Player0.area.h = (lines+1) * SIZE_OF_LINE
+		Player0.area.h = (lines) * SIZE_OF_LINE
 		Drawer.setScale(Math.ceil(SIZE_OF_LINE*canvas.height/Player0.area.h)/SIZE_OF_LINE, 
 						Math.ceil(SIZE_OF_LINE*canvas.height/Player0.area.h)/SIZE_OF_LINE);
 		GenPath.setLines(lines);	
