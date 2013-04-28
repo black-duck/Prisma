@@ -28,8 +28,9 @@ function startGame() {
     InputEngine.setup(canvas);
     GameEngine.init(canvas);
     Drawer.init(canvas);
-	Drawer.setScale(canvas.width/800, canvas.width/800);
-	Scale.setScale(1/(canvas.width/800), 1/(canvas.width/800));
+	//Scalling
+	Drawer.setScale(Math.ceil(50*canvas.width/550)/50, Math.ceil(50*canvas.width/550)/50);
+	Scale.setScale(Math.floor(50*canvas.width/800)/50, Math.floor(50*canvas.width/800)/50);
     // Gameplay.init();
 
     // And loop.
