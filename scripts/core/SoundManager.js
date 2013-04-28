@@ -107,6 +107,8 @@ SoundManager = {
 		var request = new XMLHttpRequest();
 		request.open('GET', src + '.' + this.audioType, true);
 		request.responseType = 'arraybuffer';
+		//new parameter added
+		request.src = src;
 		request.addEventListener('load',SoundManager._functionCreateSounds, false);
 		request.send();
 	},
@@ -115,8 +117,8 @@ SoundManager = {
 	_functionCreateSounds: function(event){
 		var request = event.target;
 		var buffer = SoundManager.context.createBuffer(request.response, false);
-		SoundManager.soundBuffers[src] = buffer;
-		SoundManager.sounds.push(src);
+		SoundManager.soundBuffers[this.src] = buffer;
+		SoundManager.sounds.push(this.src);
 		SoundManager.soundsLoaded.push(true);		
 	},
 	
