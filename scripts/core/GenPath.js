@@ -9,6 +9,13 @@ GenPath = ({
 	mapHead:0,
 	lines: 0,
 
+	friends:{
+			 0:[0,2,3],	
+			 1:[1],
+			 2:[0,2],
+			 3:[0,3]			 	
+			},
+
 	init: function() {
 		this.map = [[0,0,0,0,0,0,0,0]];
 		this.lines = this.map[0].length;
@@ -78,7 +85,7 @@ GenPath = ({
 
 		var moveTo;
 		var last = this.map[this.map.length - 1];
-		
+		var color = last[path];	
 
 		//find possible Possition
 		var possiblePos = [];
@@ -120,16 +127,23 @@ GenPath = ({
 		}
 		//console.log(path + " Move to:" + moveTo);
 		
+		//Should I change color ?
+		rand = Math.random();
+		if (rand < 0.2) {
+			var posColors = this.friends[color];
+			color = posColors[Math.floor(Math.random()*posColors.length)];
+			console.log('change colorsi!!!');
+		}
 			
 		if (path < moveTo) {
 			for (var i=path+1; i <= moveTo; i++) {
-				last[i] = last[path]; //create vertical path
+				last[i] = color; //create vertical path
 	//			this.next[i] = 1; //set wall 
 			}			
 		}
 		else if (path > moveTo) {
 			for (var i=path-1; i >= moveTo; i--) {
-				last[i] = last[path]; //create vertical path
+				last[i] = color; //create vertical path
 		//		if ( last[i] === null ) {
 	//				this.next[i] = 1;
 		//		}
@@ -153,7 +167,9 @@ GenPath = ({
 	},
 
 	_canTransition: function(a,b) {
-		if (a==b) {
+		console.log(a+'->'+b);
+		if (this.friends[a].indexOf(b) >= 0) {
+			console.log('yes');
 			return true;
 		}
 		else {
