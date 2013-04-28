@@ -7,7 +7,7 @@ factory['Surface'] = Class.extend({
 
 	width: 50,
 	height: 50,
-    speed: 1,
+    speed: 2.5,
 	
 	pos: {
 		x: 200,

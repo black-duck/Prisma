@@ -52,7 +52,7 @@ factory['Prisma'] = Class.extend({
 			Drawer.portPos.y = 0;
 		
 		}
-		
+		// to fix
 		if (this.pos.y > areaHeight - Drawer.portPos.y) {
 			Drawer.portPos.y = areaHeight - GameEngine.canvas.height;
 		}
@@ -103,11 +103,11 @@ factory['Prisma'] = Class.extend({
 	},
 	
 	moveLeft:function () {
-			this.speed.x = -this.maxSpeed/2;
+			this.speed.x = -this.maxSpeed;
 	},
 	
 	moveRight:function () {
-			this.speed.x = this.maxSpeed/3;
+			this.speed.x = this.maxSpeed;
 	},
 	
 	

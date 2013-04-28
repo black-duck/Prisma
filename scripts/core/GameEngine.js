@@ -37,7 +37,7 @@ GameEngine = {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
 		Player0.prisma = this.spawn('Prisma');
-        for (var hi=0; hi <= 350; hi=hi+48) {
+        for (var hi=0; hi <= 650; hi=hi+48) {
 		this.batchSpawn(hi,[0,0,0,0,0,0,0,0,0,0]);
 		}
 		this.setLines(10);
@@ -50,8 +50,8 @@ GameEngine = {
 	setLines: function (lines) {
 		var SIZE_OF_LINE = 50;
 		Player0.area.h = (lines) * SIZE_OF_LINE
-		Drawer.setScale(Math.ceil(SIZE_OF_LINE*canvas.height/Player0.area.h)/SIZE_OF_LINE, 
-						Math.ceil(SIZE_OF_LINE*canvas.height/Player0.area.h)/SIZE_OF_LINE);
+		Drawer.setScale(1,1);//Math.ceil(SIZE_OF_LINE*canvas.height/Player0.area.h)/SIZE_OF_LINE, 
+						//Math.ceil(SIZE_OF_LINE*canvas.height/Player0.area.h)/SIZE_OF_LINE);
 		GenPath.setLines(lines);	
 	},
 
@@ -97,10 +97,10 @@ GameEngine = {
 	aiClock:0,
 	
 	ai: function () {
-		if (this.aiClock > 47) {
+		if (this.aiClock > 50/2.5) {
 			GenPath.step();
 			var nextStep = GenPath.pull();
-			this.batchSpawn(300,nextStep);
+			this.batchSpawn(600,nextStep);
 			this.aiClock = 0;
 		}
 		else {
@@ -210,17 +210,18 @@ GameEngine = {
 		for (var i=0; i<=array.length; i++ ) {
 			
 			if (array[i] == 0) { 
-				this.spawn ('Surface',x,y,'black'); 
+				this.spawn ('Surface',x,y,'green'); 
 			}
 			else if (array[i] == 1) {
-				this.spawn ('Surface',x,y,'white');
+				this.spawn ('Surface',x,y,'red');
 			}
 			else if (array[i] == 2) {
-				this.spawn ('Surface',x,y,'green');
+				this.spawn ('Surface',x,y,'orange');
 			}
 			else if (array[i] == 3) {
-				this.spawn ('Surface',x,y,'blue');
+				this.spawn ('Surface',x,y,'yellow');
 			}
+		
 		y+=50;
 		}
 	},
