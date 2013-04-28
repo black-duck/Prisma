@@ -35,8 +35,8 @@ GameEngine = {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
 		Player0.prisma = this.spawn('Prisma');
-        for (var hi=0; hi <= this.canvas.width / Drawer.xScale; hi=hi+48) {
-		this.batchSpawn(hi,[0,0,0,0,0,0,0,0,0,0]);
+        for (var hi=0; hi < this.canvas.width / Drawer.xScale; hi=hi+48) {
+			this.batchSpawn(hi,[0,0,0,0,0,0,0,0,0,0]);
 		}
 		this.setLines(10);
 		Player0.area.w = this.canvas.width / Drawer.xScale;
@@ -98,7 +98,7 @@ GameEngine = {
 	aiClock:0,
 	
 	ai: function () {
-		if (this.aiClock > 49) {
+		if (this.aiClock >= 50) {
 			GenPath.step();
 			var nextStep = GenPath.pull();
 			this.batchSpawn(this.canvas.width / Drawer.xScale,nextStep);
@@ -121,7 +121,6 @@ GameEngine = {
 			if (Math.abs(Player0.prisma.pos.x - ent[i].pos.x) <  Player0.prisma.width/2 + ent[i].width/2 &&			
 				Math.abs(Player0.prisma.pos.y - ent[i].pos.y) <  Player0.prisma.height/2 + ent[i].height/2) {
 					Player0.prisma.collision(ent[i]);					
-					console.log('!');
 			}
 		}
 	},
@@ -188,8 +187,8 @@ GameEngine = {
 	},
 	//Drawer.rect(x, y, width, height, color, fillColor);
 	batchSpawn: function(x,array) {
-		var y=0;
-		for (var i=0; i<=array.length; i++ ) {
+		var y=25;
+		for (var i=0; i<array.length; i++) {
 			
 			this.spawn ('Surface',x,y,array[i]); 
 			y+=50;
