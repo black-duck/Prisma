@@ -102,45 +102,48 @@ SoundManager = {
 		return this.sounds.indexOf(src);
 	},
 	
+	//Send a request - DRAFT
+	_sendXMLHttpRequest: function(src){
+		var request = new XMLHttpRequest();
+		request.open('GET', src + '.' + this.audioType, true);
+		request.responseType = 'arraybuffer';
+		request.addEventListener('load',SoundManager._functionCreateSounds, false);
+		request.send();
+	},
 	
-	//Load the sounds - DRAFT
+	//Function when the sound loads
+	_functionCreateSounds: function(event){
+		var request = event.target;
+		var buffer = SoundManager.context.createBuffer(request.response, false);
+		SoundManager.soundBuffers[src] = buffer;
+		SoundManager.sounds.push(src);
+		SoundManager.soundsLoaded.push(true);		
+	},
+	
+	//Load the sounds
 	_loadSound: function(src, sps){ //sps = Sounds per second
 		if(this.context != null){
-			var request = new XMLHttpRequest();
-			
-			request.open('GET', src + '.' + this.audioType, true);
-			request.responseType = 'arraybuffer';
-			request.addEventListener('load',function(event){
-			
-				var request = event.target;
-				var buffer = SoundManager.context.createBuffer(request.response, false);
-				SoundManager.soundBuffers[src] = buffer;
-				SoundManager.sounds.push(src);
-				SoundManager.soundsLoaded.push(true);
-				
-			}, false);
-			
-			request.send();
+			this._sendXMLHttpRequest(src);
 		}
 		else{
 			var audio = Loader.load(src + '.' + SoundManager.audioType);
-			var length = Math.ceil(sps * this.duration);
-			//DRAFT
-			length = 10;
-			var array = new Array(length);
-			for(var i = 0; i < length; i++){
-				array[i] = Loader.load(src + '.' + SoundManager.audioType);
-				array[i].autoplay = false;
-				array[i].muted = SoundManager.globalMute;
-				array[i].volume = SoundManager.effectsVolume;
-			}
-			SoundManager.soundArrays[src] = array;
-			SoundManager.counters[src] = 0;
-			SoundManager.sounds.push(src);
+			audio.addEventListener("loadeddata", function(){
+				var length = Math.ceil(sps * this.duration);
+				var array = new Array(length);
+				for(var i = 0; i < length; i++){
+					array[i] = Loader.load(src + '.' + SoundManager.audioType);
+					array[i].autoplay = false;
+					array[i].muted = SoundManager.globalMute;
+					array[i].volume = SoundManager.effectsVolume;
+				}
+				SoundManager.soundArrays[src] = array;
+				SoundManager.counters[src] = 0;
+				SoundManager.sounds.push(src);
+			});
 		}
 	},
 	
-	//Music Variables
+	/*   Music Player   */
 	
 	//Array to hold the links of the music
 	srcArray: new Array(),
@@ -383,7 +386,7 @@ SoundManager = {
 }
 //Draft
 SoundManager.init();
-//SoundManager.loadSounds(['sounds/LaserBeam0', 'sounds/LaserBeam1', 'sounds/Explosion0'], [10, 10, 10]);
+SoundManager.loadSounds(['sounds/die', 'sounds/transition'], [2, 3]);
 SoundManager.setMusic(['sounds/Nature_Dreams', 'sounds/New_World_Order']);
 SoundManager.startMusic();
 //SoundManager.playMusic();
