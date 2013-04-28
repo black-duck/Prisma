@@ -48,7 +48,6 @@ GenPath = ({
 				continue;
 			}
 
- 
 			
 			var move = this.__computePath(this.paths[i]); 
 			
@@ -56,10 +55,8 @@ GenPath = ({
 				this.paths[i] = null;
 			}
 			else {
- 
 				this.paths[i] = move;
 			}
- 
 		}
 			
 		for (var i=0; i < this.next.length; i++) {
@@ -121,7 +118,6 @@ GenPath = ({
 		//forks
 		rand = Math.random();
 		if (rand < 0.2) {
- 
 			this.paths.push(path);
 		}
 		
@@ -130,7 +126,6 @@ GenPath = ({
 		if (rand < 0.2) {
 			var posColors = this.friends[color];
 			color = posColors[Math.floor(Math.random()*posColors.length)];
- 
 		}
 			
 		if (path < moveTo) {
@@ -151,7 +146,6 @@ GenPath = ({
 		//Can I merge?
 		if (moveTo != path && this.paths.indexOf(moveTo) > 0 ) {
 			//yes
- 
 			return false; //remove path
 		}
 		else {
@@ -165,9 +159,7 @@ GenPath = ({
 	},
 
 	_canTransition: function(a,b) {
- 
 		if (this.friends[a].indexOf(b) >= 0) {
- 
 			return true;
 		}
 		else {
