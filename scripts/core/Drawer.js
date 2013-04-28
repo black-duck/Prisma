@@ -32,8 +32,8 @@ Drawer = {
 	init: function (canvas) {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
-		this.portSize.w = this.canvas.width;
-		this.portSize.h = this.canvas.height;
+		this.portSize.w = this.canvas.width/ this.xScale;
+		this.portSize.h = this.canvas.height/ this.yScale;
 	},	
 	
 	//Load Atlas images in order to draw them later
@@ -111,6 +111,8 @@ Drawer = {
 		this.yScale = y;
 		this.xScaleHalf = x/2;
 		this.yScaleHalf = x/2;
+		
+		
 	},
 	
 	setPort: function(x,y){ 

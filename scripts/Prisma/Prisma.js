@@ -12,7 +12,7 @@ factory['Prisma'] = Class.extend({
 	
 	pos: {
 		x: 150,
-		y: 300
+		y: 250
 	},
 	
 	speed: { 
@@ -44,15 +44,15 @@ factory['Prisma'] = Class.extend({
 		this.pos.y += this.speed.y;
 		this.pos.x += this.speed.x;
 		
+		// port size = canvas /scale
+		Drawer.portPos.y = this.pos.y - (Drawer.portSize.h/2);
 		
-		Drawer.portPos.y = this.pos.y - areaHeight/2;
-		
-		if (this.pos.y < areaHeight/2) {
+		if (Drawer.portPos.y < 0) {
 			Drawer.portPos.y = 0;
 		
 		}
 		// to fix
-		if (this.pos.y > areaHeight - Drawer.portPos.y) {
+		if (Drawer.portPos.y + Drawer.portSize.h > areaHeight) {
 			Drawer.portPos.y = areaHeight - Drawer.portSize.h;
 		}
 		
