@@ -162,8 +162,8 @@ Drawer = {
 		var xp = this.portPos.x;
 			yp = this.portPos.y;
 			
-		x = x-xp;
-		y = y-yp;
+		x = x-width/2 -xp;
+		y = y-height/2-yp;
 			
 		ctx.beginPath();
 		ctx.lineWidth = '1';	
@@ -184,8 +184,8 @@ Drawer = {
 		var xp = this.portPos.x;
 			yp = this.portPos.y;
 			
-		x = x-xp;
-		y = y-yp;
+		x = x-width/2 -xp;
+		y = y-height/2-yp;
 	
 		ctx.beginPath();
 		ctx.lineWidth = '1';	
@@ -208,8 +208,8 @@ Drawer = {
 		var xp = this.portPos.x;
 			yp = this.portPos.y;
 			
-		x = x-xp;
-		y = y-yp;
+		x = x-width/2 -xp;
+		y = y-height/2-yp;
 		
 		ctx.beginPath();
 		ctx.rect(x * xs, y * ys, width * xs, height * ys);
