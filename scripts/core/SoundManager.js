@@ -24,7 +24,7 @@ SoundManager = {
 	counters: {},
 	
 	//Init Function	
-	init: function(array1, array2){
+	init: function(){
 	
 		//Define the type of audio supported.
 		var audio =  new Audio();
@@ -42,25 +42,24 @@ SoundManager = {
 		else
 			console.log('AudioContext not supported. :(');	
 	
-		//If AudioContext is not supported
+		//If AudioContext is supported
 		if(this.context != null){
-		
-		//Create a volumeNode of AudioContext
-		this.volumeNode = this.context.createGainNode();
-		
-		this.volumeNode.gain.value = this.effectsVolume;
-		
-		this.volumeNode.connect(this.context.destination);
-		
-		
+			
+			//Create a volumeNode of AudioContext
+			this.volumeNode = this.context.createGainNode();
+			
+			this.volumeNode.gain.value = this.effectsVolume;
+			
+			this.volumeNode.connect(this.context.destination);
 		}
 		
-		//Preload sounds - DRAFT
-		for(var i = 0; i < array1.length; i++)
-			this._loadSound(array1[i],array2[i]);
+	},
+	
 		
-		
-		
+	//Preload sounds -DRAFT - Loaded must do this job
+	loadSounds: function(soundsArray, timeArray){
+		for(var i = 0; i < soundsArray.length; i++)
+			this._loadSound(soundsArray[i],timeArray[i]);
 	},
 	
 	//Play sound, if loaded - DRAFT
@@ -142,96 +141,158 @@ SoundManager = {
 	},
 	
 	//Music Variables
-	musicArray: new Array(),
-		
+	
+	//Array to hold the links of the music
+	srcArray: new Array(),
+	
+	//The music volume
 	musicVolume: 1,
-		
-	maudio: new Audio(),
 	
-	mTempAudio: new Audio(),
+	//The primary music
+	primaryAudio: new Audio(),
 	
+	//The secondary (temporary) music
+	secondaryAudio: new Audio(),
+	
+	//Counter for the srcArray
 	counter: 0,
 	
+	//Fade in/out time
 	fadeTime: 5,
 	
-	//Load the playlist
-	loadMusic: function(array){
-		this.musicArray = array;
-		this.maudio = Loader.load(this.musicArray[this.counter] + '.' + this.audioType);
-		this.maudio.autoplay = false;
-		this.maudio.muted = this.globalMute;
-		this.maudio.volume = this.musicVolume;
-		this.maudio.next = false;
-		this.maudio.end = this.maudio.duration;
-		this.maudio.addEventListener("ended",function(){
-			SoundManager.maudio = SoundManager.mTempAudio;
-			SoundManager.mTempAudio = null;
-		});
-		this.maudio.addEventListener("timeupdate",function(){
+	//If tracks are changing
+	nextTrackInProgress: false,
+	
+	//Set the playlist of the songs
+	setMusic: function(srcArray){
+		this.srcArray = srcArray;
+	},
+	
+	//Start the playlist, from the beginning.
+	startMusic: function(){
+		//Set the counter to zero
+		this.counter = 0;
+		//Start Loading the new track
+		this.primaryAudio = Loader.load(this.srcArray[this.counter] + '.' + this.audioType);
+		//Set the parameters
+		this.primaryAudio.autoplay = false;
+		this.primaryAudio.muted = this.globalMute;
+		this.primaryAudio.volume = this.musicVolume;
+		//Flag that indicates if a track is changing
+		this.primaryAudio.next = false;
+		//When this audio ends. Set when the track is loaded.
+		this.primaryAudio.end = null;
+		//Constantly check volume and time to play next track
+		this.primaryAudio.addEventListener("timeupdate",function(){
 			var d = this.end - this.currentTime;
 			var c = this.currentTime;
-			if(d <= SoundManager.fadeTime){
-				if(d < 0){
+			if(d <= SoundManager.fadeTime){//Time to start the next song.
+				if(d < 0){//If already ended
 					this.currentTime = this.duration;
 				}
 				else{
+					//Fade Out
 					this.volume = (d / SoundManager.fadeTime) * SoundManager.musicVolume;
+					//If not in prccess of changing track.
 					if(this.next === false){
 						this.next = true;
-						SoundManager.nextTrack();
+						SoundManager.nextTrack(); //Change Track
 					}
 				}
 			}
-			if(c <= SoundManager.fadeTime)
+			if(c <= SoundManager.fadeTime)//Fade in
 				this.volume = (c / SoundManager.fadeTime) * SoundManager.musicVolume;	
-			if(c > SoundManager.fadeTime && d > SoundManager.fadeTime)
+			if(c > SoundManager.fadeTime && d > SoundManager.fadeTime)//Set the volume of music
 				this.volume = SoundManager.musicVolume;
+		});
+		//On end
+		this.primaryAudio.addEventListener("ended",function(){
+			SoundManager.primaryAudio = SoundManager.secondaryAudio; //Change the secondary track to primary
+			SoundManager.secondaryAudio = null; //Set the secondary track a null track
+			SoundManager.nextTrackInProgress = false; //Track changed
+		});
+		//When the music loads, play it.
+		this.primaryAudio.addEventListener("loadeddata", function(){
+			this.end = this.duration;
+			this.play();
 		});
 	},
 	
 	//Next track please!
 	nextTrack: function(){
-		if(!this.maudio.next){
-			this.maudio.next = true;
-			this.maudio.end = this.maudio.currentTime + SoundManager.fadeTime;
-		}
-		this.counter = (this.counter + 1) % this.musicArray.length;
-		this.mTempAudio = Loader.load(this.musicArray[this.counter] + '.' + this.audioType);
-		this.mTempAudio.autoplay = false;
-		this.mTempAudio.muted = this.globalMute;
-		this.mTempAudio.volume = this.musicVolume;
-		this.mTempAudio.next = false;
-		this.mTempAudio.end = this.mTempAudio.duration;
-		this.mTempAudio.addEventListener("timeupdate",function(){
-			var d = this.end - this.currentTime;
-			var c = this.currentTime;
-			if(d <= SoundManager.fadeTime){
-				if(d < 0){
-					this.currentTime = this.duration;
-				}
-				else{
-					this.volume = (d / SoundManager.fadeTime) * SoundManager.musicVolume;
-					if(this.next === false){
-						this.next = true;
-						SoundManager.nextTrack();
+		if(SoundManager.nextTrackInProgress === false){
+			SoundManager.nextTrackInProgress = true;
+			//In order to change whenever we want
+			if(!this.primaryAudio.next){
+				this.primaryAudio.next = true;
+				this.primaryAudio.end = this.primaryAudio.currentTime + SoundManager.fadeTime;
+			}
+			//Increase the counter
+			this.counter = (this.counter + 1) % this.srcArray.length;
+			//Start Loading the new track
+			this.secondaryAudio = Loader.load(this.srcArray[this.counter] + '.' + this.audioType);
+			//Set the parameters
+			this.secondaryAudio.autoplay = false;
+			this.secondaryAudio.muted = this.globalMute;
+			this.secondaryAudio.volume = this.musicVolume;
+			//Flag that indicates if a track is changing
+			this.secondaryAudio.next = false;
+			//When this audio ends. Set when the track is loaded.
+			this.secondaryAudio.end = null;
+			//Constantly check volume and time to play next track
+			this.secondaryAudio.addEventListener("timeupdate",function(){
+				var d = this.end - this.currentTime;
+				var c = this.currentTime;
+				if(d <= SoundManager.fadeTime){//Time to start the next song.
+					if(d < 0){//If already ended
+						this.currentTime = this.duration;
+					}
+					else{
+						//Fade Out
+						this.volume = (d / SoundManager.fadeTime) * SoundManager.musicVolume;
+						//If not in prccess of changing track.
+						if(this.next === false){
+							this.next = true;
+							SoundManager.nextTrack(); //Change Track
+						}
 					}
 				}
-			}
-			if(c <= SoundManager.fadeTime)
-				this.volume = (c / SoundManager.fadeTime) * SoundManager.musicVolume;	
-			if(c > SoundManager.fadeTime && d > SoundManager.fadeTime)
-				this.volume = SoundManager.musicVolume;
-		});
-		this.mTempAudio.addEventListener("ended",function(){
-			SoundManager.maudio = SoundManager.mTempAudio;
-			SoundManager.mTempAudio = null;
-		});
-		this.mTempAudio.play();
+				if(c <= SoundManager.fadeTime)//Fade in
+					this.volume = (c / SoundManager.fadeTime) * SoundManager.musicVolume;	
+				if(c > SoundManager.fadeTime && d > SoundManager.fadeTime)//Set the volume of music
+					this.volume = SoundManager.musicVolume;
+			});
+			//On end
+			this.secondaryAudio.addEventListener("ended",function(){
+				SoundManager.primaryAudio = SoundManager.secondaryAudio; //Change the secondary track to primary
+				SoundManager.secondaryAudio = null; //Set the secondary track a null track
+				SoundManager.nextTrackInProgress = false; //Track changed
+			});
+			//When the music loads, play it.
+			this.secondaryAudio.addEventListener("loadeddata", function(){
+				this.end = this.duration;
+				this.play();
+			});
+		}
+	},
+	
+	disableSound: function(){
+		try{
+			//Stop the primary music
+			SoundManager.primaryAudio.pause();
+			SoundManager.primaryAudio.src = "";
+			//Stop the secondary music
+			SoundManager.secondaryAudio.pause();
+			SoundManager.secondaryAudio.src = "";
+			console.log('Music Didabled :(');
+		}
+		catch(e){
+		}
 	},
 	
 	//Play the music
 	playMusic: function(){
-		this.maudio.play();	
+		this.primaryAudio.play();	
 	},
 	
 	//Volume up the effects
@@ -256,7 +317,7 @@ SoundManager = {
 			this.musicVolume += this.offsetVolume;
 		else
 			this.musicVolume = 1;
-		this.maudio.volume = this.musicVolume;	
+		this.primaryAudio.volume = this.musicVolume;	
 	},
 	
 	//Volume down the music
@@ -265,19 +326,19 @@ SoundManager = {
 			this.musicVolume -= this.offsetVolume;
 		else
 			this.musicVolume = 0;
-		this.maudio.volume = this.musicVolume;	
+		this.primaryAudio.volume = this.musicVolume;	
 	},
 	
 	//Mute the sound
 	muteAll: function(){
 		this.volumeNode.gain.value = 0;
-		this.maudio.muted = true;
+		this.primaryAudio.muted = true;
 	},
 	
 	//Unmute the sound
 	umuteAll: function(){
 		this.volumeNode.gain.value = this.effectsVolume;
-		this.maudio.muted = false;
+		this.primaryAudio.muted = false;
 	},
 	
 	//Optional functions
@@ -321,6 +382,8 @@ SoundManager = {
 	}	
 }
 //Draft
-SoundManager.init(['sounds/LaserBeam0', 'sounds/LaserBeam1', 'sounds/Explosion0'], [10, 10, 10]);
-SoundManager.loadMusic(['sounds/Fifty_Percent_-_Bright_Air', 'sounds/Air_Attack']);
-SoundManager.playMusic();
+SoundManager.init();
+//SoundManager.loadSounds(['sounds/LaserBeam0', 'sounds/LaserBeam1', 'sounds/Explosion0'], [10, 10, 10]);
+SoundManager.setMusic(['sounds/Nature_Dreams', 'sounds/New_World_Order']);
+SoundManager.startMusic();
+//SoundManager.playMusic();
