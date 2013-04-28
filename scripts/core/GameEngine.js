@@ -37,7 +37,9 @@ GameEngine = {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
 		Player0.prisma = this.spawn('Prisma');
-        
+        for (var hi=0; hi <= 350; hi=hi+48) {
+		this.batchSpawn(hi,[0,0,0,0,0,0,0,0,0,0]);
+		}
 		this.setLines(10);
 
 		//DRAFT
@@ -96,10 +98,10 @@ GameEngine = {
 	aiClock:0,
 	
 	ai: function () {
-		if (this.aiClock > 50 ) {
+		if (this.aiClock > 47) {
 			GenPath.step();
 			var nextStep = GenPath.pull();
-			this.batchSpawn(1000,nextStep);
+			this.batchSpawn(300,nextStep);
 			this.aiClock = 0;
 		}
 		else {
