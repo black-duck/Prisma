@@ -103,6 +103,10 @@ Drawer = {
 	//
 	//Don't forget to scale InputEngine
 	setScale: function (x, y) {
+	
+		//TODO DRAFT
+		x = Math.ceil(x);
+		y = Math.ceil(y);
 		this.xScale = x;
 		this.yScale = y;
 		this.xScaleHalf = x/2;
