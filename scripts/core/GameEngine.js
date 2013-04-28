@@ -38,10 +38,19 @@ GameEngine = {
 		this.ctx = canvas.getContext('2d');
 		Player0.prisma = this.spawn('Prisma');
         
-        
+		this.setLines(10);
+
 		//DRAFT
 		
 		//Drawer.image('atlas/bg');
+	},
+
+	setLines: function (lines) {
+		var SIZE_OF_LINE = 50;
+		Player0.area.h = (lines+1) * SIZE_OF_LINE
+		Drawer.setScale(Math.ceil(SIZE_OF_LINE*canvas.height/Player0.area.h)/SIZE_OF_LINE, 
+						Math.ceil(SIZE_OF_LINE*canvas.height/Player0.area.h)/SIZE_OF_LINE);
+		GenPath.setLines(lines);	
 	},
 
 	draw: function () {
