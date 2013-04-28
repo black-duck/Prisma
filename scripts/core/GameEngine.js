@@ -5,8 +5,8 @@ Player0 = {
 	area: { 
 		x:0,
 		y:0,
-		w:300,
-		h:600
+		w:0,
+		h:0
 	}
 }
 
@@ -41,7 +41,8 @@ GameEngine = {
 		this.batchSpawn(hi,[0,0,0,0,0,0,0,0,0,0]);
 		}
 		this.setLines(10);
-
+		Player0.area.w = this.canvas.width;
+		
 		//DRAFT
 		
 		//Drawer.image('atlas/bg');
@@ -97,7 +98,7 @@ GameEngine = {
 	aiClock:0,
 	
 	ai: function () {
-		if (this.aiClock > 50/2.5) {
+		if (this.aiClock > 49) {
 			GenPath.step();
 			var nextStep = GenPath.pull();
 			this.batchSpawn(600,nextStep);
@@ -213,10 +214,10 @@ GameEngine = {
 				this.spawn ('Surface',x,y,'green'); 
 			}
 			else if (array[i] == 1) {
-				this.spawn ('Surface',x,y,'red');
+				this.spawn ('Surface',x,y,'blue');
 			}
 			else if (array[i] == 2) {
-				this.spawn ('Surface',x,y,'orange');
+				this.spawn ('Surface',x,y,'red');
 			}
 			else if (array[i] == 3) {
 				this.spawn ('Surface',x,y,'yellow');

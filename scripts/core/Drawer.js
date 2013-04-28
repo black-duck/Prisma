@@ -27,12 +27,13 @@ Drawer = {
 	yScaleHalf: 0.5,
 	
 	portPos:{x:0,y:0},
-	//portSize:{w:0,h:0},
+	portSize:{w:0,h:0},
 
 	init: function (canvas) {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
-
+		this.portSize.w = this.canvas.width;
+		this.portSize.h = this.canvas.height;
 	},	
 	
 	//Load Atlas images in order to draw them later
