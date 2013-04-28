@@ -7,22 +7,28 @@ GenPath = ({
 	lookahead: 1,
 	DGD: 1,
 	mapHead:0,
+	lines: 0,
 
 	init: function() {
 		this.map = [[0,0,0,0,0,0,0,0]];
-		this.paths = [0,1,2,3,4,6];
+		this.lines = this.map[0].length;
+		this.paths = [0,1,2,3,4,6];		
 		this.maxNumPaths = this.paths.length;
 	},
 
+	setLines: function (lines) {
+		this.lines = lines;
+	},
+
 	pull: function() {
-		return this.map[this.mapHead++];
+		return this.map.shift();
 	},
 
 	step: function() {
 		var newPath;
 		var last = this.map[this.map.length - 1];
 		var gc = [];
-		this.next = new Array(last.length);
+		this.next = new Array(this.lines);
 		
 		for (var i=0; i < this.next.length; i++) {
 			this.next[i] = null;
@@ -116,13 +122,13 @@ GenPath = ({
 		
 			
 		if (path < moveTo) {
-			for (var i=path; i <= moveTo; i++) {
+			for (var i=path+1; i <= moveTo; i++) {
 				last[i] = last[path]; //create vertical path
 	//			this.next[i] = 1; //set wall 
 			}			
 		}
 		else if (path > moveTo) {
-			for (var i=path; i >= moveTo; i--) {
+			for (var i=path-1; i >= moveTo; i--) {
 				last[i] = last[path]; //create vertical path
 		//		if ( last[i] === null ) {
 	//				this.next[i] = 1;
