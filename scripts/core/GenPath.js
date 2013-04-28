@@ -67,13 +67,18 @@ GenPath = ({
 			
 		for (var i=0; i < last.length; i++) {
 			
-			if (last[i] == null ) {
-			
-				//Pick opposite color
-				var enemyColors = this.enemies[last2[i]];
-				var opColor = enemyColors[Math.floor(Math.random()*enemyColors.length)];
+			if (last[i] == null && last2[i] !==undefined ) {
 				
-				last[i] = opColor;
+				if ( last2[i] == undefined ) {
+					last[i] == Math.floor(Math.random()*4);//Draft
+				}
+				else {
+					//Pick opposite color
+					var enemyColors = this.enemies[last2[i]];				
+					var opColor = enemyColors[Math.floor(Math.random()*enemyColors.length)];
+					last[i] = opColor;
+
+				}
 			}
 		}
 		
