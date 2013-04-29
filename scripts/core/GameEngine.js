@@ -66,9 +66,9 @@ GameEngine = {
 		//DRAFT end
 		
 		var ent = this.Entities;
-
+		//not optimized 
 		ent.sort(function (a,b) { 
-			
+					
 			var az=0;
 			var bz=0;
 
@@ -120,7 +120,16 @@ GameEngine = {
 				continue;
 			if (Math.abs(Player0.prisma.pos.x - ent[i].pos.x) <  Player0.prisma.width/2 + ent[i].width/2 &&			
 				Math.abs(Player0.prisma.pos.y - ent[i].pos.y) <  Player0.prisma.height/2 + ent[i].height/2) {
+		
+				if (Math.abs(Player0.prisma.pos.x - ent[i].pos.x) < ent[i].width/2 - Player0.prisma.width/2 && 
+					Math.abs(Player0.prisma.pos.y - ent[i].pos.y) < ent[i].height/2 + Player0.prisma.height/2 ){	
+					Player0.prisma.inside(ent[i]);	
+					return;
+				}
+				else {
 					Player0.prisma.collision(ent[i]);					
+					
+				}
 			}
 		}
 	},
