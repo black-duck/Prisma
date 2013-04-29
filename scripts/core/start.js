@@ -12,11 +12,10 @@ function loop() {
 
     beforeFrame = new Date();
 
+    Gameplay.update();
     GameEngine.update();
-    //PhysicsEngine.update();
-    // Gameplay.update();
     GameEngine.draw();
-
+	
     afterFrame = new Date();
     framesInterval = afterFrame - beforeFrame;
 
