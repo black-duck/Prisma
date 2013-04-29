@@ -66,6 +66,30 @@ Loader = {
 
 	},
 
+	isLoaded: function(src) {
+		
+		var ext = this.FILE_EXT;
+
+		if (ext.image.test(src)) {
+			if (this.images[src]) {
+				return true;	
+			}
+			return false;
+		}
+		else if (ext.sound.test(src)) {
+			if (this.sounds[src]) {
+				return true;	
+			}
+			return false;
+		}
+		else if (ext.json.test(src)) {
+			if (this.objects[src]) {
+				return true;	
+			}
+			return false;
+		}
+
+	},
 	//Tell Loader that you will need a resource later
 	//
 	//parameters:
