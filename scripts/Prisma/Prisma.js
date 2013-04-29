@@ -29,6 +29,9 @@ factory['Prisma'] = Class.extend({
 	
 	img: null,
 	imgSrc: assets['Prisma'],
+	
+	life: 100,
+	maxLife: 100,
 
 	go: {
 		'up':   0,
@@ -54,49 +57,22 @@ factory['Prisma'] = Class.extend({
 		this.pos.y += this.speed.y;
 		this.pos.x += this.speed.x;
 
-        // A lot of hardcoding here it is. 
-        // Hardcoding leads to anger and anger leads to hate and hate leads to the dark side.
-        // Ideally, we should go through all entities that should not stick there when viewport is moving.
-		
-
-        //Player0.lifebar.pos.y = this.pos.y - (Drawer.portSize.h/2) + 20;
-		
-		//if (Drawer.portPos.y < 0) {
-		//	Drawer.portPos.y = 0;
-        //    Player0.lifebar.pos.y = 20;	
-		//}
-		//TODO to fix
-		//if (Drawer.portPos.y + Drawer.portSize.h > areaHeight) {
-		//	Drawer.portPos.y = areaHeight - Drawer.portSize.h;
-        //    Player0.lifebar.pos.y = areaHeight - Drawer.portSize.h + 20;
-		//}
 		
 		if (this.pos.y < 0 +localHeight) {
-			
 			this.pos.y = 0 +localHeight;
-			
 		}
 		
 		if (this.pos.y > areaHeight - localHeight) {
-			
 			this.pos.y = areaHeight - localHeight;
-			
 		}
 		
 		if (this.pos.x < 0 +this.width/2) {
-			
 			this.pos.x = 0 +this.width/2;
-		
 		}
 		
 		if (this.pos.x > areaWidth -this.width/2) {
-			
 			this.pos.x = areaWidth -this.width/2;
-		
 		}
-			
-		
-		
 		
 		this.speed.y = 0;
 		this.speed.x = 0;
@@ -215,21 +191,62 @@ factory['Prisma'] = Class.extend({
 		if (this.surface == other ) {
 			return;
 		}
+		if (this.color = other.color) {
+			this.surface = other;
+			return;
+		}
 		if (this.surface.pos.x < other.pos.x ) {
 			//move forward
-			//console.log(this.color + '>' +  other.color );
+			if (this.surface.color == this.go['front']) {
+				
+				this._changeColor(other.color);
+				this.life += 2;
+	
+				if (this.maxLife < this.life) {
+					this.life = this.maxLife;
+				}
+			}
+			return;
 		}
 		if (this.surface.pos.y > other.pos.y ) {
 			//move up
-			//console.log('^');		
+			if (this.surface.color == this.go['up']) {
+				
+				this._changeColor(other.color);
+				this.life += 2;
+				
+				if (this.maxLife < this.life) {
+					this.life = this.maxLife;
+				}
+			}
+			return;
 		}
 		if (this.surface.pos.y < other.pos.y ) {
 			//move down
-			//console.log('v');
+			if (this.surface.color == this.go['down']) {
+				
+				this._changeColor(other.color);
+				this.life += 2;
+				
+				if (this.maxLife < this.life) {
+					this.life = this.maxLife;
+				}
+			}
+			return;
+
 		}
+
 		if (GenPath._canTransition(this.color, other.color)) {
 			this.surface = other;			
 			this._changeColor(other.color);
+			this.life -= 2;
+			if (this.life < 0 ) {
+				this.life = 0 
+				this.crashed = true;
+			}
+		}
+		else {
+				this.crashed = true;
 		}
 		//work TODO
 
@@ -241,10 +258,11 @@ factory['Prisma'] = Class.extend({
 		}
 		else {
 			if (!GenPath._canTransition(this.color, other.color)) {
-				//work TODO
-				console.log('Game over');
-				Player0.playing = false;
-				this.crash = true;
+				this.life -= 2;
+				if (this.life < 0 ) {
+					this.life = 0;
+					this.crashed = true;
+				}
 			}
 
 		}

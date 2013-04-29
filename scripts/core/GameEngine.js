@@ -107,6 +107,18 @@ GameEngine = {
 		for ( i in ent ) {
 			ent[i].draw(ctx);	
 		}
+		
+		
+		if ( Player0.prisma.crashed) {
+			Drawer.ctx.fillStyle="#efe";
+			Drawer.ctx.lineStyle="#fffff0";
+			Drawer.ctx.font="38px sans-serif";
+			Drawer.ctx.fillText('Game Over, press F5 to restart',
+								Drawer.canvas.width/4 - 20,
+								Drawer.canvas.height/4 - 10);
+			Player0.prisma.zIndex = -1;
+		}
+
 
 	},
 	physic: function () {
@@ -133,7 +145,8 @@ GameEngine = {
 		}
 	},
 	update: function () {
-		
+
+
 		//DRAFT start
 		if(InputEngine.actions['go-up']) {
 			

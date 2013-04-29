@@ -32,7 +32,7 @@ Gameplay = {
 			GameEngine.batchSpawn(i,[0,0,0,0,0,0,0,0,0,0]);
 
 		}
-		this.setSpeed(0.932);
+		this.setSpeed(0.8);
 
 	},
 
