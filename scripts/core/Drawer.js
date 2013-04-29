@@ -293,7 +293,7 @@ Drawer = {
 		}
 		else if (arguments.length == 6) {
 			//better way to do it
-			this.__image6(imgSrc, x, y, 
+			this.__image6(img, x, y, 
 					arguments[3], arguments[4], arguments[5]);
 		}
 		return ;
@@ -337,7 +337,7 @@ Drawer = {
 		}
 		else if (arguments.length == 6) {
 			//better way to do it
-			this.__image6(imgSrc, x, y, 
+			this.__image6(img, x, y, 
 					arguments[3], arguments[4], arguments[5]);
 		}
 
