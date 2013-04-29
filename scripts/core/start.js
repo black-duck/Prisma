@@ -6,6 +6,8 @@ var framesInterval = 0;
 DELAY = 1000.0/60.0;
 Logger = {};
 Logger.log = console.log;
+var loading = true;
+
 function loop() {
 
     beforeFrame = new Date();
@@ -22,13 +24,40 @@ function loop() {
 }
 
 function startGame() {
-	var canvas = document.getElementById('canvas');
 
+	//Load stuff
+	for (var i in assets) {
+		Loader.preload(assets[i]);
+	}
     // Do some initialization.
     InputEngine.setup(canvas);
-    GameEngine.init(canvas);
-    Drawer.init(canvas);
+   	load();
 
-    // And loop.
-    loop();
+}
+
+function load() {
+
+	
+	loading = false;
+	for (var i in assets) {
+
+		if (!Loader.isLoaded(assets[i])) {
+			loading = true;
+			
+		}
+		
+	}
+
+
+	if (loading) {
+    	window.setTimeout(load, 50);
+	}
+	else {
+		 // And loop.
+		var canvas = document.getElementById('canvas');
+    	GameEngine.init(canvas);
+    	Drawer.init(canvas);
+    	loop();
+	}
+
 }
