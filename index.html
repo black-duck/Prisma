@@ -76,6 +76,30 @@
 			margin-right:auto;
 		
 		}
+        p.description {
+                width: 333px;
+                margin: 10px auto 30px auto;
+                color: #b0b5bf;
+                font-size: 70%;
+                text-align: justify;
+            }
+
+        .description {
+            padding-top: 50px;
+        }
+
+    p a {
+                color: #F2EBEB;
+                text-decoration: none;
+            }
+            p a:hover {
+                color: #948F8F;
+            }
+
+    .MenuButton:hover {
+        color:  #b0b5bf;
+    }
+
 		
 
     </style>
@@ -85,16 +109,22 @@
     <div id="Space">
     <div id="SplashScreen">
     <img src="prismaLogo_transp.png"></img>
-    
     <div id="StartButton" class="MenuButton">Play!</div>
 	<div id="MuteButton" class="MenuButton">Mute</div>
 	<div id="DisableMusic" class="MenuButton">Disable Music<br/>(Dev Only)</div>
 	</div>
     </div> 
+
+    
+    <p class='description'>Prisma is a browser-based minimalist game. It was built for Ludom Dare #48 contest and it is published under BSD license. You can check the journal <a href="http://www.ludumdare.com/compo/author/sophron/">here</a> or view the <a href="https://github.com/black-duck/Prisma">code on Github</a>.
+    </div>
+    </p>
+
 	<div id="canvasHolder"></div>	
 	<script>
     $("#StartButton").click(function () {
 		$("#Space").remove();
+        $(".description").remove();
 		var holder = $("#canvasHolder");
 		var w = holder.innerWidth();
 		var h = holder.innerHeight();
@@ -108,10 +138,7 @@
 	$("#MuteButton").click(function () {
         SoundManager.muteAll();
     });
-    $(".MenuButton").mouseenter(function () {
-     // $(this).css("background-color","gray");
-      $(this).effect("shake", { times:3 }, 500);
-    });
+
 	</script>
 	
 </body>
