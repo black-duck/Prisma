@@ -1,4 +1,7 @@
+var Color = net.brehaut.Color;
+
 // Used to calculate framesInterval.
+// 
 var beforeFrame = 0;
 var afterFrame = 0;
 var framesInterval = 0;
