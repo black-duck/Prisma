@@ -215,10 +215,6 @@ Drawer = {
 		ctx.rect(x * xs, y * ys, width * xs, height * ys);
 		ctx.fillStyle = fillColor;
 		ctx.fill();
-		ctx.lineWidth = 1 * xs;	
-		ctx.strokeStyle = color;
-		ctx.stroke();
-
 
 	},
 
