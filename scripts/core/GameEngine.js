@@ -19,7 +19,6 @@ assets = {
 }
 
 
-
 factory = {};
 
 //DRAFT - to be modified area stop
@@ -48,7 +47,6 @@ GameEngine = {
 		scale = Math.max([2]);
 		Drawer.setScale(scale, scale);						
 		Player0.area.w = this.canvas.width / Drawer.xScale;
-		Player0.area.h = this.canvas.height/ Drawer.yScale;	
 		GenPath.setLines(lines);	
 	},
 
@@ -168,7 +166,14 @@ GameEngine = {
 		for (var i=ent.length; i-- ; i) {	
 			ent[i].update();   	 
 		}
-
+			
+		Drawer.portPos.y = Player0.prisma.pos.y - (Drawer.portSize.h/2);
+		if (Drawer.portPos.y < 0) {
+			Drawer.portPos.y = 0;
+		}
+		if (Drawer.portPos.y + Drawer.portSize.h > Player0.area.h) {
+			Drawer.portPos.y = Player0.area.h - Drawer.portSize.h;
+		}
 		this.physic();
 
 		//Draft Garbage collector

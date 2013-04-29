@@ -207,7 +207,7 @@ Drawer = {
 	
 		var xp = this.portPos.x;
 			yp = this.portPos.y;
-			
+
 		x = x-width/2 -xp;
 		y = y-height/2-yp;
 		
