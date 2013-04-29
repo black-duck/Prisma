@@ -18,7 +18,7 @@ Gameplay = {
 	speed: 1,
 
 	clock:0,
-	
+
 	init: function () {
 		
 
@@ -56,6 +56,13 @@ Gameplay = {
 		}
 		
 	},
+
+	getFriends: function (color) {
+
+		return this.colorFriends[color];
+	},
+
+
 
 	isFriend: function (a,b) {
 		if (this.colorFriends[a].indexOf(b) >= 0) {

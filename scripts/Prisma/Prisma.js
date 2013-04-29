@@ -29,7 +29,13 @@ factory['Prisma'] = Class.extend({
 	
 	img: null,
 	imgSrc: assets['Prisma'],
-	
+
+	go: {
+		'up':   0,
+		'down': 0,
+		'front':0	
+	},
+
 	init: function(x, y) {
 	
 		x = this.pos.x;
@@ -120,8 +126,19 @@ factory['Prisma'] = Class.extend({
 	_changeColor: function (newColor) {
 		
 		this.color = newColor;
+		
+		var friends = Gameplay.getFriends(this.color);
+		var i=0;
+		for ( var c in this.go ) {			
+			this.go[c] = friends[i];
+
+			if ( i < friends.length-1) i++;
+		}
+
 		var img = Loader.load(this.imgSrc);
-		this.img = this.__applyColors(img, 'red', 'green', 'orange' );
+		this.img = this.__applyColors(img,	 Gameplay.toColor(this.go['up']),
+											Gameplay.toColor(this.go['down']),
+											Gameplay.toColor(this.go['front']) );
 
 	},
 	//TODO maybe Utility class is the place for next fucntion
@@ -146,25 +163,24 @@ factory['Prisma'] = Class.extend({
 
 				var t;
 
-				if (R == 255 && G == 0 && B == 0) {
-					 
+				if (R >= 250 && G <= 25 && B <= 25) {
+					t = frontColor; 
+					data[i+0] = t.getRed() * 255;
+					data[i+1] = t.getGreen() * 255;
+					data[i+2] = t.getBlue() * 255;
+					data[i+3] = A;
+				}
+				else if (R <= 25 && G >= 250 && B <= 25) {
+					
 					t = topColor
 					data[i+0] = t.getRed() * 255;
 					data[i+1] = t.getGreen() * 255;
 					data[i+2] = t.getBlue() * 255;
 					data[i+3] = A;
 				}
-				else if (R == 0 && G == 255 && B == 0) {
-					
-					t = bottomColor; 
-					data[i+0] = t.getRed() * 255;
-					data[i+1] = t.getGreen() * 255;
-					data[i+2] = t.getBlue() * 255;
-					data[i+3] = A;
-				}
-				else if (R == 0 && G == 0 && B == 255) {
+				else if (R <= 25 && G <= 25 && B >= 250) {
 
-					t = frontColor; 
+					t = bottomColor; 
 					data[i+0] = t.getRed() * 255;
 					data[i+1] = t.getGreen() * 255;
 					data[i+2] = t.getBlue() * 255;
