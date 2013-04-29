@@ -250,23 +250,23 @@ Drawer = {
 	//width  - resize image width to specified
 	//height - resize image height to specified
 	//
-	image: function (imgSrc, canvX , canvY) {
+	image: function (imgSrc, x, y) {
 
 		if (this._imgToAtlas[imgSrc]) {
 			
 			if (arguments.length == 3) {
-				this.__imageAtlas3(imgSrc, canvX, canvY);
+				this.__imageAtlas3(imgSrc, x, y);
 			}
 			else if (arguments.length == 4) {
-				this.__imageAtlas4(imgSrc, canvX, canvY, arguments[3]);
+				this.__imageAtlas4(imgSrc, x, y, arguments[3]);
 			}
 			else if (arguments.length == 5) {
-				this.__imageAtlas5(imgSrc, canvX, canvY, 
+				this.__imageAtlas5(imgSrc, x, y, 
 						arguments[3], arguments[4]);
 			}
 			else if (arguments.length == 6) {
 				//better way to do it
-				this.__imageAtlas6(imgSrc, canvX, canvY, 
+				this.__imageAtlas6(imgSrc, x, y, 
 						arguments[3], arguments[4], arguments[5]);
 			}
 
@@ -275,63 +275,172 @@ Drawer = {
 		}
 
 
-		//Work TODO
 		
-		var canvRot, canvWidth, canvHeight, imgX, imgY, imgWidth, imgHeight;
 		var img,ctx;
 			
 		ctx = this.ctx;
 		img = Loader.load(imgSrc);
 		
-		var xScale = this.xScale,
-			yScale = this.yScale,
-			xScaleHalf = this.xScaleHalf,
-			yScaleHalf = this.yScaleHalf;
+		if (arguments.length == 3) {
+			this.__image3(img, x, y);
+		}
+		else if (arguments.length == 4) {
+			this.__image4(img, x, y, arguments[3]);
+		}
+		else if (arguments.length == 5) {
+			this.__image5(img, x, y, 
+					arguments[3], arguments[4]);
+		}
+		else if (arguments.length == 6) {
+			//better way to do it
+			this.__image6(imgSrc, x, y, 
+					arguments[3], arguments[4], arguments[5]);
+		}
+		return ;
+		
+	},
+	//Draw a raw (not src) image to canvas
+	//
+	//rawImage is an overloaded method
+	//
+	//Drawer.rawImage(img, x, y);
+	//Drawer.rawImage(img, x, y, angle);
+	//Drawer.rawImage(img, x, y, width, height);
+	//Drawer.rawImage(img, x, y, rad, width, height);
+	//
+	//Warning: 
+	//You have to provide an image element not a string with
+	//image src
+	//
+	//Features:
+	//1.Translate x,y image possition from top-right to center.
+	//2.Scale x,y posstions and width, heigth.
+	//
+	//parameters:
+	//imgSrc - string with image uri, or image name on an atlas
+	//x		 - x axis center possition of image
+	//y		 - y axis center possition of image
+	//angle	 - rotation angle in radius
+	//width  - resize image width to specified
+	//height - resize image height to specified
+	rawImage: function (imgi,x,y) {
+	
+		if (arguments.length == 3) {
+			this.__image3(img, x, y);
+		}
+		else if (arguments.length == 4) {
+			this.__image4(img, x, y, arguments[3]);
+		}
+		else if (arguments.length == 5) {
+			this.__image5(img, x, y, 
+					arguments[3], arguments[4]);
+		}
+		else if (arguments.length == 6) {
+			//better way to do it
+			this.__image6(imgSrc, x, y, 
+					arguments[3], arguments[4], arguments[5]);
+		}
+
+		return ;
+
+	},
+
+	//Overloaded methods __image*
+	//draw raw image with out atlas
+	__image3: function (img, x, y) {
+	
+		var ctx;
+			
+		ctx = this.ctx;
+		
+		var xs = this.xScale,
+			ys = this.yScale,
+			xsh= this.xScaleHalf,
+			ysh= this.yScaleHalf;
 		
 		var xp = this.portPos.x;
 		var yp = this.portPos.y;
 		
-		canvX = canvX-xp;
-		canvY = canvY-yp;
-		
-		if( arguments.length == 3) {
-			ctx.drawImage(img, xScale * canvX, xScale * canvY);
-		}
-		else if( arguments.length == 4) {
-			canvRot = arguments[3];
+		x = x-xp;
+		y = y-yp;
 
-			ctx.save();
-			ctx.translate(xScale * canvX, yScale * canvY);
-			ctx.rotate(canvRot);
-			ctx.drawImage( img, -(img.width * xScaleHalf ), -(img.height * yScaleHalf));
-			ctx.restore();
-		} 
-		else if ( arguments.length == 5) {
-			canvWidth =  arguments[3];
-			canvHeight = arguments[4];
-			ctx.drawImage(img, canvX * xScale -(canvWidth * xScaleHalf), 
-								canvY * yScale -(canvHeight * yScaleHalf), 
-								canvWidth * xScale, 
-								canvHeight * yScale);
-		
-		}
-		else if ( arguments.length == 6 ) {
+		ctx.drawImage(img, xs * x, ys * y);
 
-			canvRot = arguments[3];
-			canvWidth =  arguments[4];
-			canvHeight = arguments[5];
-			
-			ctx.save();
-			ctx.translate(canvX * xScale, canvY * yScale);
-			ctx.rotate(canvRot);
-			ctx.drawImage( img, -(canvWidth * xScaleHalf),
-								-(canvWidth * yScaleHalf), 
-								canvWidth  * xScale,
-								canvHeight * yScale);
-			ctx.restore();
-		}
 	},
-	//Not overloaded versions of .image()
+
+	__image4: function (img, x, y, rot) {
+		
+		var ctx = this.ctx;
+		
+		var xs = this.xScale,
+			ys = this.yScale,
+			xsh= this.xScaleHalf,
+			ysh= this.yScaleHalf;
+		
+		var xp = this.portPos.x;
+		var yp = this.portPos.y;
+		x = x-xp;
+		y = y-yp;
+	
+		ctx.save();
+		ctx.translate(xs * x, ys * y);
+		ctx.rotate(rot);
+		ctx.drawImage( img, -(img.width * xsh ), -(img.height * ysh));
+		ctx.restore();
+
+	},
+
+	__image5: function (img, x, y, w, h) {
+		var ctx;
+			
+		ctx = this.ctx;
+		
+		var xs = this.xScale,
+			ys = this.yScale,
+			xsh= this.xScaleHalf,
+			ysh= this.yScaleHalf;
+		
+		var xp = this.portPos.x;
+		var yp = this.portPos.y;
+		x = x-xp;
+		y = y-yp;
+	
+		ctx.drawImage(img, 	x * xs - (w * xsh), 
+						 	y * ys - (h * ysh), 
+							w * xs, 
+							h * ys);
+	
+
+	},
+
+	__image6: function (img, x, y, rot, w, h) {
+		var ctx;
+			
+		ctx = this.ctx;
+		
+		var xs = this.xScale,
+			ys = this.yScale,
+			xsh= this.xScaleHalf,
+			ysh= this.yScaleHalf;
+		
+		var xp = this.portPos.x;
+		var yp = this.portPos.y;
+		x = x-xp;
+		y = y-yp;
+		
+			
+		ctx.save();
+		ctx.translate(x * xs, y * ys);
+		ctx.rotate(rot);
+		ctx.drawImage( img, -(w * xsh),
+							-(h * ysh), 
+							h * xs,
+							h * ys);
+		ctx.restore();
+	
+	},
+
+	//overloaded versions of .image()
 	//[if a fucntion is not overloaded 
 	// js-interpreter can compile them 
 	// for great performance]
