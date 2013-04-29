@@ -25,11 +25,11 @@ Gameplay = {
 		GenPath.friends = this.colorFriends;
 		GenPath.enemies = this.colorEnemies;
 
-		for (var i=0; i < Player0.area.w; i+=50) {
+		for (var i=25; i < Player0.area.w + 50 * this.speed; i+=50) {
 	
 			GenPath.step();
 			var nextStep = GenPath.pull();
-			GameEngine.batchSpawn(i,nextStep + 25);
+			GameEngine.batchSpawn(i,[0,0,0,0,0,0,0,0,0,0]);
 
 		}
 		this.setSpeed(0.932);
@@ -60,11 +60,11 @@ Gameplay = {
 	getFriends: function (color) {
 		var f = new Array();
 		for (var i in this.colorFriends) {
-			if ( color !== this.colorFriends[i] ) {
-				f.push(this.colorFriends[i]);
+			if ( color !== this.colorFriends[color][i] ) {
+				f.push(this.colorFriends[color][i]);
 			}
 		}
-		return this.colorFriends[color];
+		return f;
 	},
 
 
