@@ -36,7 +36,6 @@ factory['Prisma'] = Class.extend({
 
     update: function() {
 		
-		
 		var areaWidth = Player0.area.w;
 		var areaHeight = Player0.area.h;
 		var localHeight = this.height/2;
@@ -44,17 +43,24 @@ factory['Prisma'] = Class.extend({
 		
 		this.pos.y += this.speed.y;
 		this.pos.x += this.speed.x;
+
+        // A lot of hardcoding here it is. 
+        // Hardcoding leads to anger and anger leads to hate and hate leads to the dark side.
+        // Ideally, we should go through all entities that should not stick there when viewport is moving.
 		
 		// port size = canvas /scale
 		Drawer.portPos.y = this.pos.y - (Drawer.portSize.h/2);
+
+        Player0.lifebar.pos.y = this.pos.y - (Drawer.portSize.h/2) + 20;
 		
 		if (Drawer.portPos.y < 0) {
 			Drawer.portPos.y = 0;
-		
+            Player0.lifebar.pos.y = 20;	
 		}
 		// to fix
 		if (Drawer.portPos.y + Drawer.portSize.h > areaHeight) {
 			Drawer.portPos.y = areaHeight - Drawer.portSize.h;
+            Player0.lifebar.pos.y = areaHeight - Drawer.portSize.h + 20;
 		}
 		
 		if (this.pos.y < 0 +localHeight) {
