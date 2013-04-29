@@ -57,7 +57,7 @@ factory['Prisma'] = Class.extend({
 			Drawer.portPos.y = 0;
             Player0.lifebar.pos.y = 20;	
 		}
-		// to fix
+		//TODO to fix
 		if (Drawer.portPos.y + Drawer.portSize.h > areaHeight) {
 			Drawer.portPos.y = areaHeight - Drawer.portSize.h;
             Player0.lifebar.pos.y = areaHeight - Drawer.portSize.h + 20;
@@ -99,9 +99,55 @@ factory['Prisma'] = Class.extend({
 		Drawer.image( this.img, this.pos.x, this.pos.y , this.width , this.height);
 	},	
 
-	_changeColor: function(newColor) {
+	_changeColor: function (newColor) {
 		this.color = newColor;
 
+	},
+	//TODO maybe Utility class is the place for next fucntion
+	__applyColors: function (img, topColor, bottomColor, frontColor) {
+		
+		var newImg = Drawer.filter(img, 
+		
+		function(imgData) {
+
+			var data = imgData.data;
+		
+			for (var i=0; i<data.length; i+=4) {
+		
+				var R = imgData.data[i+0],
+					G = imgData.data[i+1],
+					B = imgData.data[i+2],
+					A = imgData.data[i+3];
+
+				if (R == 255 && G != 255 && B != 255) {
+					var t = Colors.name2rgb(topColor); 
+					data[i+0] = t.R;
+					data[i+1] = t.G;
+					data[i+2] = t.B;
+					data[i+3] = A;
+				}
+				else if (R != 255 && G == 255 && B != 255) {
+					var t = Colors.name2rgb(bottomColor); 
+					data[i+0] = t.R;
+					data[i+1] = t.G;
+					data[i+2] = t.B;
+					data[i+3] = A;
+				}
+				else if (R != 255 && G != 255 && B == 255) {
+					var t = Colors.name2rgb(frontColor); 
+					data[i+0] = t.R;
+					data[i+1] = t.G;
+					data[i+2] = t.B;
+					data[i+3] = A;
+				}
+			}
+
+			return imgData;
+
+		});
+		
+		return newImg;
+		
 	},
 	inside: function (other) {
 		

@@ -567,6 +567,37 @@ Drawer = {
 							w  * xs, h * ys);
 		ctx.restore();
 
+	},
+	//Apply filter to image
+	//
+	//Parametrs:
+	//img - image element to apply filter
+	//fn  - filter function(imgData) with imgData argument
+	//    - imgData is imageData object https://developer.mozilla.org/en-US/docs/DOM/ImageData
+	//	  - provided function must return imageData
+	//
+	//Returns: image element with filter applied
+	//
+	filter: function (img, fn) {
+		var tempCanvas, tempImage, ctx, imgData;
+
+		tempCanvas = window.document.createElement('canvas');
+		tempCanvas.width = img.width;
+		tempCanvas.height = img.height;
+		
+		ctx = tempCanvas.getContext("2d");
+		ctx.drawImage(img, 0, 0);
+		imgData = ctx.getImageData(0, 0, img.width, img.height);
+		imgData = fn(imgData);
+		ctx.putImageData(imgData,0,0);
+		
+		var tempImage = new Image();
+		tempImage.src = tempCanvas.toDataURL('image/png');
+		
+		//help full for debuging let the above comment for a while
+		//window.open(tempImage.src);
+		
+		return tempImage;
 	}
 
 }
