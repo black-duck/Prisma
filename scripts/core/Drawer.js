@@ -323,7 +323,7 @@ Drawer = {
 	//angle	 - rotation angle in radius
 	//width  - resize image width to specified
 	//height - resize image height to specified
-	rawImage: function (imgi,x,y) {
+	rawImage: function (img, x, y) {
 	
 		if (arguments.length == 3) {
 			this.__image3(img, x, y);
