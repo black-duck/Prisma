@@ -106,11 +106,24 @@ factory['Prisma'] = Class.extend({
 	},
 	rotate: function (clockwise) {
 		
+		var tmp;
+		
 		if (clockwise) {
+			
 			this.ang += 2*1.04719755;
+			
+			tmp = this.go['down'];
+			this.go['down'] = this.go['front'];
+			this.go['front'] = this.go['up'];
+			this.go['up'] = tmp;
 		}
 		else {
 			this.ang -= 2*1.04719755;
+			tmp = this.go['up'];
+			this.go['up'] = this.go['front'];
+			this.go['front'] = this.go['down'];
+			this.go['down'] = tmp;
+			
 		}
 		return this.ang;
 		
