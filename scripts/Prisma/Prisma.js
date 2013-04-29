@@ -25,12 +25,14 @@ factory['Prisma'] = Class.extend({
 	
 	maxSpeed: 2,
 	
-	img: assets['Prisma'],
-
+	img: null,
+	imgSrc: assets['Prisma'],
+	
 	init: function(x, y) {
 	
 		x = this.pos.x;
 		y = this.pos.y;
+		this.img = Loader.load( this.imgSrc);
 			
 	},
 
@@ -96,11 +98,17 @@ factory['Prisma'] = Class.extend({
 	},
 
 	draw: function (ctx) {
-		Drawer.image( this.img, this.pos.x, this.pos.y , this.width , this.height);
+ 	
+    
+	    Drawer.rawImage( this.img, this.pos.x, this.pos.y , this.width , this.height);
+
 	},	
 
 	_changeColor: function (newColor) {
+		
 		this.color = newColor;
+		var img = Loader.load(this.imgSrc);
+		this.img = this.__applyColors(img, 'yello', 'green', 'black' );
 
 	},
 	//TODO maybe Utility class is the place for next fucntion
@@ -119,21 +127,21 @@ factory['Prisma'] = Class.extend({
 					B = imgData.data[i+2],
 					A = imgData.data[i+3];
 
-				if (R == 255 && G != 255 && B != 255) {
+				if (R == 255 && G == 0 && B == 0) {
 					var t = Colors.name2rgb(topColor); 
 					data[i+0] = t.R;
 					data[i+1] = t.G;
 					data[i+2] = t.B;
 					data[i+3] = A;
 				}
-				else if (R != 255 && G == 255 && B != 255) {
+				else if (R == 0 && G == 0 && B == 0) {
 					var t = Colors.name2rgb(bottomColor); 
 					data[i+0] = t.R;
 					data[i+1] = t.G;
 					data[i+2] = t.B;
 					data[i+3] = A;
 				}
-				else if (R != 255 && G != 255 && B == 255) {
+				else if (R == 0 && G == 0 && B == 255) {
 					var t = Colors.name2rgb(frontColor); 
 					data[i+0] = t.R;
 					data[i+1] = t.G;
