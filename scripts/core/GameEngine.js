@@ -2,6 +2,7 @@
 Player0 = {
     playing: true,
 	prisma: null,
+    lifebar: null,
 	area: { 
 		x:0,
 		y:0,
@@ -35,6 +36,7 @@ GameEngine = {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
 		Player0.prisma = this.spawn('Prisma');
+        Player0.lifebar = this.spawn('Lifebar');
         for (var hi=0; hi < this.canvas.width / Drawer.xScale; hi=hi+48) {
 			this.batchSpawn(hi,[0,0,0,0,0,0,0,0,0,0]);
 		}
