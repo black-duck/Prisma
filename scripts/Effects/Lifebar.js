@@ -37,7 +37,7 @@ factory['Lifebar'] = Class.extend({
 
     draw: function() {
         Drawer.rect(this.pos.x, this.pos.y, this.width, this.height, 'black');
-        Drawer.rect(this.pos.x, this.pos.y, this.liferatio * this.size.x, this.size.y, 'C9C9C9', 'C9C9C9'); 
+        Drawer.rect(this.pos.x, this.pos.y, this.liferatio * this.size.x, this.size.y, '#C9C9C9', '#C9C9C9'); 
     },
 
     setRatio: function(ratio) {

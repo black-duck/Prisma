@@ -62,6 +62,27 @@ GameEngine = {
 		//DRAFT end
 		
 		var ent = this.Entities;
+		
+		/*
+		//Draw all z-index with number n, and store the others.
+		//Draw all z-index with number n+1, and store the others.
+		//Until everything is drawn
+		for(var i = 0; i < ent.length; i++){
+			if(ent[i].zIndex == undefined)
+				ent[i].zIndex = 0;
+		}
+		var indexCounter = 0;
+		while(ent.length != 0){
+			var temp = [];
+			for(var i = 0; i < ent.length; i++){
+				if(ent[i].zIndex == indexCounter)
+					ent[i].draw(ctx);
+				else
+					temp.push(ent[i]);
+			}
+			ent = temp;
+			indexCounter++;
+		}*/
 		//not optimized 
 		ent.sort(function (a,b) { 
 					
@@ -136,6 +157,9 @@ GameEngine = {
 			
 				Player0.prisma.moveRight();
 			
+		}
+		if (InputEngine.actions['rotate']) {
+				Player0.prisma.rotate(true);
 		}
 		
 		var ent = this.Entities;
