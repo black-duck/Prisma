@@ -1,34 +1,22 @@
 SoundManager = {
-	//General variables
+
+
+	/* General Properties */
+	
+	//The offset volume
 	offsetVolume: 0.1,
 	
+	//If sounds and music are muted
 	globalMute: false,
 	
-	audioType: 'ogg',
-	
-	//Sound Variables
-	effectsVolume: 0.15,
-	
-	sounds: [],
-	
-	soundsLoaded: [],
-	
-	context: null,
-	
-	volumeNode: null,
-	
-	soundBuffers: {},
-	
-	soundArrays: {},
-	
-	counters: {},
+	//The audio type supported
+	audioType: 'ogg',	
 	
 	//Init Function	
 	init: function(){
 	
-		//Define the type of audio supported.
 		var audio =  new Audio();
-		
+		//Define the type of audio supported.
 		if (audio.canPlayType('audio/ogg; codecs="vorbis"'))
 			this.audioType = 'ogg';
 		else
@@ -47,16 +35,43 @@ SoundManager = {
 			
 			//Create a volumeNode of AudioContext
 			this.volumeNode = this.context.createGainNode();
-			
+			//Set the volume in volumeNode
 			this.volumeNode.gain.value = this.effectsVolume;
-			
+			//Connect the volumeNode to the context destination
 			this.volumeNode.connect(this.context.destination);
 		}
 		
 	},
 	
-		
-	//Preload sounds -DRAFT - Loaded must do this job
+	
+	/*   Effects Player   */
+	
+	//Sound Variables
+	effectsVolume: 0.15,
+	
+	//This array will hold the source of each sound
+	sounds: [],
+	
+	//When Audio Context is supported
+	
+	//The Audio Context object
+	context: null,
+	
+	//The volume node
+	volumeNode: null,
+	
+	//The buffer of the sounds
+	soundBuffers: {},
+	
+	//When Audio Context is not supported
+	
+	//Array that holds all sound arrays - Non Audio Context 
+	soundArrays: {},
+	
+	//Internal counters - Non Audio Context
+	counters: {},
+	
+	//Preload sounds effects
 	loadSounds: function(soundsArray, timeArray){
 		for(var i = 0; i < soundsArray.length; i++)
 			this._loadSound(soundsArray[i],timeArray[i]);
@@ -64,35 +79,39 @@ SoundManager = {
 	
 	//Play sound, if loaded - DRAFT
 	playSound: function(src){
-		//DRAFT
-		if(this.context != null){// return;
+	
+		//Search for the sound
+		var res = this._searchSound(src);
+		if(res == -1){//If sound not found, do nothing
+			console.log('Not Loaded Yet');
+			return;
+		}
 		
-			var res = this._searchSound(src);
-			//DRAFT
-			if(res == -1){
-				console.log('Not Loaded Yet');
-				return;
-			}
-			
+		//Play the sound
+		if(this.context != null){//If Audio Context is supported
+			//Create a buffer source object
 			var source = this.context.createBufferSource();
+			//Set the buffer source to the buffer of the sound
 			source.buffer = this.soundBuffers[this.sounds[res]];
+			//No Loop
 			source.loop = false;
+			//Connect it to the volumeNode
 			source.connect(this.volumeNode);
+			//Play immediately
 			source.noteOn(0);
 		}
-		else{
-			var res = this._searchSound(src);
-			//DRAFT
-			if(res == -1){
-				console.log('Not Loaded Yet');
-				return;
-			}
+		else{//If Audio Context is not supported
+			//Find the internal counter
 			var counter = this.counters[src];
+			//Find the proper audio
 			var audio = this.soundArrays[src][counter];
+			//Set the parameters
 			audio.autoplay = false;
 			audio.muted = this.globalMute;
 			audio.volume = this.effectsVolume;
+			//Play the sound
 			audio.play();
+			//Increase the counter by one
 			this.counters[src] = (this.counters[src] + 1) % this.soundArrays[src].length;
 		}
 	},
@@ -102,48 +121,115 @@ SoundManager = {
 		return this.sounds.indexOf(src);
 	},
 	
-	//Send a request - DRAFT
+	//Send a request
 	_sendXMLHttpRequest: function(src){
+		//Set a new request
 		var request = new XMLHttpRequest();
+		//Set the parameters
 		request.open('GET', src + '.' + this.audioType, true);
+		//Define the response type
 		request.responseType = 'arraybuffer';
-		//new parameter added
+		//A new parameter
 		request.src = src;
+		//When it loads
 		request.addEventListener('load',SoundManager._functionCreateSounds, false);
+		//Send the request
 		request.send();
 	},
 	
 	//Function when the sound loads
 	_functionCreateSounds: function(event){
+		//Capture the target of the event
 		var request = event.target;
+		//Convert the response to buffer
 		var buffer = SoundManager.context.createBuffer(request.response, false);
+		//Save the buffer
 		SoundManager.soundBuffers[this.src] = buffer;
-		SoundManager.sounds.push(this.src);
-		SoundManager.soundsLoaded.push(true);		
+		//Save the source of the buffer
+		SoundManager.sounds.push(this.src);		
 	},
 	
 	//Load the sounds
 	_loadSound: function(src, sps){ //sps = Sounds per second
-		if(this.context != null){
+		if(this.context != null){//If Audio Context is supported
 			this._sendXMLHttpRequest(src);
 		}
-		else{
+		else{//If Audio Context is not supported
+			//Load a sound
 			var audio = Loader.load(src + '.' + SoundManager.audioType);
+			
+			//When a sound loads
 			audio.addEventListener("loadeddata", function(){
+				//Calculate the minimum number of sounds
 				var length = Math.ceil(sps * this.duration);
+				//Create a new array
 				var array = new Array(length);
+				
+				//Load the array with the same sound
 				for(var i = 0; i < length; i++){
+					//Load the sound
 					array[i] = Loader.load(src + '.' + SoundManager.audioType);
+					//Set the parameters
 					array[i].autoplay = false;
 					array[i].muted = SoundManager.globalMute;
 					array[i].volume = SoundManager.effectsVolume;
 				}
+				
+				//Save the array
 				SoundManager.soundArrays[src] = array;
+				//Set the internal counter
 				SoundManager.counters[src] = 0;
+				//Save the link
 				SoundManager.sounds.push(src);
 			});
 		}
+	},	
+	
+	//Volume up the effects
+	volumeUpEffects: function(){
+		if(this.context != null){//If Audio Context is supported
+		
+			//Change the volume in volume node
+			if(this.effectsVolume + this.offsetVolume <= 1)
+				this.volumeNode.gain.value += this.offsetVolume ;
+			else
+				this.volumeNode.gain.value = 1;	
+		}
+		else{//If Audio Context is supported
+		
+			//Change the volume effects
+			if(this.effectsVolume + this.offsetVolume <= 1)
+				this.effectsVolume += this.offsetVolume ;
+			else
+				this.effectsVolume = 1;	
+		}		
 	},
+	
+	//Volume down the effects
+	volumeDownEffects: function(){
+		if(this.context != null){//If Audio Context is supported
+		
+			//Change the volume in volume node
+			if(this.effectsVolume - this.offsetVolume >=0)
+				this.volumeNode.gain.value -= this.offsetVolume;
+			else
+				this.volumeNode.gain.value = 0;
+		}
+		else{//If Audio Context is supported
+		
+			//Change the volume effects
+			if(this.effectsVolume - this.offsetVolume >=0)
+				this.effectsVolume -= this.offsetVolume;
+			else
+				this.effectsVolume = 0;
+		}
+	},
+	
+	//Returns the volume of the effects
+	volumeEffects: function(){
+		return Math.floor(this.effectsVolume * 100);
+	},
+	
 	
 	/*   Music Player   */
 	
@@ -187,10 +273,12 @@ SoundManager = {
 		this.primaryAudio.next = false;
 		//When this audio ends. Set when the track is loaded.
 		this.primaryAudio.end = null;
+		
 		//Constantly check volume and time to play next track
 		this.primaryAudio.addEventListener("timeupdate",function(){
 			var d = this.end - this.currentTime;
 			var c = this.currentTime;
+			
 			if(d <= SoundManager.fadeTime){//Time to start the next song.
 				if(d < 0){//If already ended
 					this.currentTime = this.duration;
@@ -210,12 +298,14 @@ SoundManager = {
 			if(c > SoundManager.fadeTime && d > SoundManager.fadeTime)//Set the volume of music
 				this.volume = SoundManager.musicVolume;
 		});
-		//On end
+		
+		//When the song ends
 		this.primaryAudio.addEventListener("ended",function(){
 			SoundManager.primaryAudio = SoundManager.secondaryAudio; //Change the secondary track to primary
 			SoundManager.secondaryAudio = null; //Set the secondary track a null track
 			SoundManager.nextTrackInProgress = false; //Track changed
 		});
+		
 		//When the music loads, play it.
 		this.primaryAudio.addEventListener("loadeddata", function(){
 			this.end = this.duration;
@@ -281,6 +371,7 @@ SoundManager = {
 		}
 	},
 	
+	//Disable sound
 	disableSound: function(){
 		try{
 			//Stop the primary music
@@ -299,23 +390,7 @@ SoundManager = {
 	playMusic: function(){
 		this.primaryAudio.play();	
 	},
-	
-	//Volume up the effects
-	volumeUpEffects: function(){
-		if(this.effectsVolume + this.offsetVolume <= 1)
-			this.volumeNode.gain.value += this.offsetVolume ;
-		else
-			this.volumeNode.gain.value = 1;	
-	},
-	
-	//Volume down the effects
-	volumeDownEffects: function(){
-		if(this.effectsVolume - this.offsetVolume >=0)
-			this.volumeNode.gain.value -= this.offsetVolume;
-		else
-			this.volumeNode.gain.value = 0;
-	},
-	
+		
 	//Volume up the music
 	volumeUpMusic: function(){
 		if(this.musicVolume + this.offsetVolume <= 1)
@@ -334,19 +409,29 @@ SoundManager = {
 		this.primaryAudio.volume = this.musicVolume;	
 	},
 	
+	//Returns the volume of the music
+	volumeMusic: function(){
+		return Math.floor(this.volumeMusic * 100);
+	},
+	
+	
+	/* General Methods */
+	
 	//Mute the sound
 	muteAll: function(){
-		this.volumeNode.gain.value = 0;
+		this.globalMute = true;
+		if(this.context != null)
+			this.volumeNode.gain.value = 0;
 		this.primaryAudio.muted = true;
 	},
 	
 	//Unmute the sound
 	umuteAll: function(){
-		this.volumeNode.gain.value = this.effectsVolume;
+		this.globalMute = false;
+		if(this.context != null)
+			this.volumeNode.gain.value = this.effectsVolume;
 		this.primaryAudio.muted = false;
-	},
-	
-	//Optional functions
+	},	
 	
 	//Global volume up
 	globalVolumeUp: function(){
@@ -360,17 +445,7 @@ SoundManager = {
 		this.volumeUpEffects();
 	},
 	
-	//Effects volume
-	volumeEffects: function(){
-		return Math.floor(this.effectsVolume * 100);
-	},
-	
-	//Music volume
-	volumeMusic: function(){
-		return Math.floor(this.volumeMusic * 100);
-	},
-	
-	//Global volume
+	//Returns the global volume
 	globalVolume: function(){
 		var diff = Math.abs(this.effectsVolume - this.volumeMusic);
 		diff = Math.floor(diff * 100);	
@@ -381,7 +456,7 @@ SoundManager = {
 			return  Math.floor((this.effectsVolume + this.volumeMusic) * 100 / 2);
 	},
 	
-	//Supported audio type
+	//Returns the supported audio type
 	soundType: function(){
 		return this.audioType;
 	}	
@@ -391,4 +466,3 @@ SoundManager.init();
 SoundManager.loadSounds(['sounds/die', 'sounds/transition'], [2, 3]);
 SoundManager.setMusic(['sounds/Nature_Dreams', 'sounds/New_World_Order']);
 SoundManager.startMusic();
-//SoundManager.playMusic();
