@@ -32,21 +32,27 @@ Gameplay = {
 			GameEngine.batchSpawn(i,nextStep + 25);
 
 		}
+		this.setSpeed(1.2324);
 
+	},
+
+	setSpeed: function (speed) {
+		this.speed = speed;
+		Player0.prisma.maxSpeed = speed;
+	
 	},
 
 	update: function () {
 	
 		//Spawn Stuff
-		if (this.clock >= 50) {
+		if (this.clock >= 50 - this.speed) {
 			GenPath.step();
 			var nextStep = GenPath.pull();
 			GameEngine.batchSpawn(Player0.area.w + 25,nextStep);
-			console.log('b');
 			this.clock = 0;
 		}
 		else {
-			this.clock++;
+			this.clock+=this.speed;
 		}
 		
 	},

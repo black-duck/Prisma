@@ -26,7 +26,7 @@ factory['Surface'] = Class.extend({
 	},
 
     update: function() {
-	    this.pos.x -= this.speed;	
+	    this.pos.x -= Gameplay.speed;	
 	},
 
 	draw: function (ctx) {
