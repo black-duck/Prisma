@@ -1,8 +1,9 @@
 factory['Prisma'] = Class.extend({ 
 
 	_killed: false,
+	crashed: false,	
 	
-	
+	surface: null,
     color: null,   
 
 	zIndex: 3,	
@@ -92,17 +93,48 @@ factory['Prisma'] = Class.extend({
 		Drawer.image( this.img, this.pos.x, this.pos.y , this.width , this.height);
 	},	
 
+	_changeColor: function(newColor) {
+		this.color = newColor;
+
+	},
+	inside: function (other) {
+		
+		if (this.surface == null) { //DRAFT TODO
+			this.surface = other;
+			this._changeColor(other.color);
+		}
+		if (this.surface == other ) {
+			return;
+		}
+		if (this.surface.pos.x < other.pos.x ) {
+			//move forward
+			//console.log(this.color + '>' +  other.color );
+		}
+		if (this.surface.pos.y > other.pos.y ) {
+			//move up
+			//console.log('^');		
+		}
+		if (this.surface.pos.y < other.pos.y ) {
+			//move down
+			//console.log('v');
+		}
+		if (GenPath._canTransition(this.color, other.color)) {
+			this.surface = other;			
+			this._changeColor(other.color);
+		}
+		//work TODO
+
+	},
 	collision: function (other) {
 
-		if (this.color == null ) {
-			this.color = other.color;
+		if (this.color == null ) { //DRAFT TODO
+			this.changeColor(other.color);
 		}
 		else {
-			if (GenPath._canTransition(this.color, other.color)) {
-				this.color = other.color;
-			}
-			else {
+			if (!GenPath._canTransition(this.color, other.color)) {
+				//work TODO
 				console.log('Game over');
+				this.crash = true;
 			}
 
 		}
