@@ -110,6 +110,12 @@ GenPath = ({
 				posCost[p] = Math.pow(Math.E, -Math.abs(i-path));
 				if ( i == path )
 					posCost[p] /= 2;
+				//if symetrical don't exist give me a second change
+				var sym = 2*path - p;
+				if ( sym > 0 || sym < this.paths.lenght) {
+					posCost[p] *= 2;
+				}
+
 				p++;
 			}
 		}
