@@ -21,6 +21,8 @@ factory['Prisma'] = Class.extend({
 		y:0
 	},
 
+	ang: 0,
+
     nextSurface: false,
 	
 	maxSpeed: 2,
@@ -96,11 +98,22 @@ factory['Prisma'] = Class.extend({
 		this.speed.x = 0;
 		
 	},
+	rotate: function (clockwise) {
+		
+		if (clockwise) {
+			this.ang += 2*1.04719755;
+		}
+		else {
+			this.ang -= 2*1.04719755;
+		}
+		return this.ang;
+		
+	},
 
 	draw: function (ctx) {
  	
     
-	    Drawer.rawImage( this.img, this.pos.x, this.pos.y , this.width , this.height);
+	    Drawer.rawImage( this.img, this.pos.x, this.pos.y, this.ang, this.width, this.height);
 
 	},	
 
