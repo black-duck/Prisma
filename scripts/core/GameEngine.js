@@ -159,7 +159,9 @@ GameEngine = {
 			
 		}
 		if (InputEngine.actions['rotate']) {
-				Player0.prisma.rotate(true);
+			
+			InputEngine.actions['rotate'] = false;
+			Player0.prisma.rotate(true);
 		}
 		
 		var ent = this.Entities;
