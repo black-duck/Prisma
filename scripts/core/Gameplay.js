@@ -32,7 +32,7 @@ Gameplay = {
 			GameEngine.batchSpawn(i,nextStep + 25);
 
 		}
-		this.setSpeed(1.2324);
+		this.setSpeed(0.932);
 
 	},
 
@@ -58,7 +58,12 @@ Gameplay = {
 	},
 
 	getFriends: function (color) {
-
+		var f = new Array();
+		for (var i in this.colorFriends) {
+			if ( color !== this.colorFriends[i] ) {
+				f.push(this.colorFriends[i]);
+			}
+		}
 		return this.colorFriends[color];
 	},
 
