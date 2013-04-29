@@ -37,7 +37,7 @@ GameEngine = {
 		this.ctx = canvas.getContext('2d');
 		Player0.prisma = this.spawn('Prisma');
         Player0.lifebar = this.spawn('Lifebar');
-        for (var hi=0; hi < this.canvas.width / Drawer.xScale; hi=hi+48) {
+        for (var hi=0; hi < this.canvas.width+50 / Drawer.xScale; hi=hi+48) {
 			this.batchSpawn(hi,[0,0,0,0,0,0,0,0,0,0]);
 		}
 		this.setLines(10);
@@ -103,7 +103,7 @@ GameEngine = {
 		if (this.aiClock >= 50) {
 			GenPath.step();
 			var nextStep = GenPath.pull();
-			this.batchSpawn(this.canvas.width / Drawer.xScale,nextStep);
+			this.batchSpawn(this.canvas.width+50 / Drawer.xScale,nextStep);
 			this.aiClock = 0;
 		}
 		else {

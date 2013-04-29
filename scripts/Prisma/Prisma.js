@@ -194,6 +194,7 @@ factory['Prisma'] = Class.extend({
 			if (!GenPath._canTransition(this.color, other.color)) {
 				//work TODO
 				console.log('Game over');
+				Player0.playing = false;
 				this.crash = true;
 			}
 
