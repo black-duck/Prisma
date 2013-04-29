@@ -108,12 +108,16 @@ factory['Prisma'] = Class.extend({
 		
 		this.color = newColor;
 		var img = Loader.load(this.imgSrc);
-		this.img = this.__applyColors(img, 'yello', 'green', 'black' );
+		this.img = this.__applyColors(img, 'red', 'green', 'orange' );
 
 	},
 	//TODO maybe Utility class is the place for next fucntion
 	__applyColors: function (img, topColor, bottomColor, frontColor) {
 		
+		topColor = Color(topColor);
+		bottomColor = Color(bottomColor);
+		frontColor = Color(frontColor);
+
 		var newImg = Drawer.filter(img, 
 		
 		function(imgData) {
@@ -127,25 +131,30 @@ factory['Prisma'] = Class.extend({
 					B = imgData.data[i+2],
 					A = imgData.data[i+3];
 
+				var t;
+
 				if (R == 255 && G == 0 && B == 0) {
-					var t = Colors.name2rgb(topColor); 
-					data[i+0] = t.R;
-					data[i+1] = t.G;
-					data[i+2] = t.B;
+					 
+					t = topColor
+					data[i+0] = t.getRed() * 255;
+					data[i+1] = t.getGreen() * 255;
+					data[i+2] = t.getBlue() * 255;
 					data[i+3] = A;
 				}
-				else if (R == 0 && G == 0 && B == 0) {
-					var t = Colors.name2rgb(bottomColor); 
-					data[i+0] = t.R;
-					data[i+1] = t.G;
-					data[i+2] = t.B;
+				else if (R == 0 && G == 255 && B == 0) {
+					
+					t = bottomColor; 
+					data[i+0] = t.getRed() * 255;
+					data[i+1] = t.getGreen() * 255;
+					data[i+2] = t.getBlue() * 255;
 					data[i+3] = A;
 				}
 				else if (R == 0 && G == 0 && B == 255) {
-					var t = Colors.name2rgb(frontColor); 
-					data[i+0] = t.R;
-					data[i+1] = t.G;
-					data[i+2] = t.B;
+
+					t = frontColor; 
+					data[i+0] = t.getRed() * 255;
+					data[i+1] = t.getGreen() * 255;
+					data[i+2] = t.getBlue() * 255;
 					data[i+3] = A;
 				}
 			}
@@ -188,12 +197,13 @@ factory['Prisma'] = Class.extend({
 	collision: function (other) {
 
 		if (this.color == null ) { //DRAFT TODO
-			this.changeColor(other.color);
+			this._changeColor(other.color);
 		}
 		else {
 			if (!GenPath._canTransition(this.color, other.color)) {
 				//work TODO
 				console.log('Game over');
+				Player0.playing = false;
 				this.crash = true;
 			}
 

@@ -37,7 +37,7 @@ InputEngine = {
 			InputEngine.bind(37,'go-left');
 			InputEngine.bind(39,'go-right');
            
-			
+			InputEngine.bind(32, 'rotate');
             //event listeners
             canvas.addEventListener('mousemove', InputEngine.onMouseMove,true);
             document.addEventListener('keydown', InputEngine.onKeyDown,true);

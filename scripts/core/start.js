@@ -1,4 +1,7 @@
+var Color = net.brehaut.Color;
+
 // Used to calculate framesInterval.
+// 
 var beforeFrame = 0;
 var afterFrame = 0;
 var framesInterval = 0;
@@ -12,11 +15,10 @@ function loop() {
 
     beforeFrame = new Date();
 
+    Gameplay.update();
     GameEngine.update();
-    //PhysicsEngine.update();
-    // Gameplay.update();
     GameEngine.draw();
-
+	
     afterFrame = new Date();
     framesInterval = afterFrame - beforeFrame;
 
@@ -56,6 +58,7 @@ function load() {
 		 // And loop.
 		var canvas = document.getElementById('canvas');
     	GameEngine.init(canvas);
+		Gameplay.init();
     	Drawer.init(canvas);
     	loop();
 	}

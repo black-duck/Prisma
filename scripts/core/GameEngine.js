@@ -37,15 +37,7 @@ GameEngine = {
 		this.ctx = canvas.getContext('2d');
 		Player0.prisma = this.spawn('Prisma');
         Player0.lifebar = this.spawn('Lifebar');
-        for (var hi=0; hi < this.canvas.width / Drawer.xScale; hi=hi+48) {
-			this.batchSpawn(hi,[0,0,0,0,0,0,0,0,0,0]);
-		}
 		this.setLines(10);
-		Player0.area.w = this.canvas.width / Drawer.xScale;
-		
-		//DRAFT
-		
-		//Drawer.image('atlas/bg');
 	},
 
 	setLines: function (lines) {
@@ -55,6 +47,8 @@ GameEngine = {
 		
 		scale = Math.max([2]);
 		Drawer.setScale(scale, scale);						
+		Player0.area.w = this.canvas.width / Drawer.xScale;
+		Player0.area.h = this.canvas.height/ Drawer.yScale;	
 		GenPath.setLines(lines);	
 	},
 
@@ -64,7 +58,7 @@ GameEngine = {
 		
 		//DRAFT start
 		ctx.fillStyle = "rgb(200,0,0)";
-		ctx.fillRect (0, 0, this.canvas.width, this.canvas.height);
+		ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 		//DRAFT end
 		
 		var ent = this.Entities;
@@ -96,22 +90,6 @@ GameEngine = {
 		}
 
 	},
-	//to do move ai to own class
-	aiClock:0,
-	
-	ai: function () {
-		if (this.aiClock >= 50) {
-			GenPath.step();
-			var nextStep = GenPath.pull();
-			this.batchSpawn(this.canvas.width / Drawer.xScale,nextStep);
-			this.aiClock = 0;
-		}
-		else {
-			this.aiClock+=1;
-		}
-		
-	},
-	
 	physic: function () {
 
 		var ent = this.Entities;
@@ -137,8 +115,6 @@ GameEngine = {
 	},
 	update: function () {
 		
-		this.ai();
-
 		//DRAFT start
 		if(InputEngine.actions['go-up']) {
 			
@@ -160,6 +136,9 @@ GameEngine = {
 			
 				Player0.prisma.moveRight();
 			
+		}
+		if (InputEngine.actions['rotate']) {
+				Player0.prisma.rotate(true);
 		}
 		
 		var ent = this.Entities;
