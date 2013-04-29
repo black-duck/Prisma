@@ -590,11 +590,11 @@ Drawer = {
 		imgData = ctx.getImageData(0, 0, img.width, img.height);
 		imgData = fn(imgData);
 		ctx.putImageData(imgData,0,0);
-		
+
 		var tempImage = new Image();
 		tempImage.src = tempCanvas.toDataURL('image/png');
 		
-		//help full for debuging let the above comment for a while
+		//helpfull for debuging let the above comment for a while
 		//window.open(tempImage.src);
 		
 		return tempImage;
