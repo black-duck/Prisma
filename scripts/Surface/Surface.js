@@ -1,7 +1,5 @@
 factory['Surface'] = Class.extend({ 
 
-	colors: ['green','blue','red','yellow'],
-
 	name: 'Surface',
     color: 0,
 
@@ -32,7 +30,8 @@ factory['Surface'] = Class.extend({
 	},
 
 	draw: function (ctx) {
-		Drawer.rect(this.pos.x, this.pos.y, this.width, this.height, this.colors[this.color], this.colors[this.color]);
+		Drawer.rect(this.pos.x, this.pos.y, this.width, this.height,
+					Gameplay.toColor(this.color), Gameplay.toColor(this.color));
 	},	
 	
 	

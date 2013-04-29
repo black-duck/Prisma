@@ -55,6 +55,7 @@ function load() {
 		 // And loop.
 		var canvas = document.getElementById('canvas');
     	GameEngine.init(canvas);
+		Gameplay.init();
     	Drawer.init(canvas);
     	loop();
 	}

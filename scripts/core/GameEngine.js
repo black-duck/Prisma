@@ -38,7 +38,6 @@ GameEngine = {
 		Player0.prisma = this.spawn('Prisma');
         Player0.lifebar = this.spawn('Lifebar');
 		this.setLines(10);
-		Gameplay.init();	
 	},
 
 	setLines: function (lines) {

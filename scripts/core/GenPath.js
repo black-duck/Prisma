@@ -22,7 +22,10 @@ GenPath = ({
 			},
 
 	init: function() {
-		this.map = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]];
+		this.map = [[0,0,0,0,0,0,0,0],
+					[0,0,0,0,0,0,0,0],
+					[0,0,0,0,0,0,0,0]];
+		
 		this.lines = this.map[0].length;
 		this.paths = [0,1,2,3,4,6,7];		
 		this.maxNumPaths = this.paths.length;
