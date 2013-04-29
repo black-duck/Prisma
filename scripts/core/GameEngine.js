@@ -14,7 +14,7 @@ Player0 = {
 
 assets = { 
 	'background': 'atlas/bg.jpg',
-	'Prisma'	: 'atlas/prisma.png', 
+	'Prisma'	: 'atlas/prisma2RGB.png', 
     'Surface'   : 'atlas/red.jpg',
 }
 
