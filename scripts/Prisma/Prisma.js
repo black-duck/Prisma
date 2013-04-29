@@ -188,7 +188,7 @@ factory['Prisma'] = Class.extend({
 	collision: function (other) {
 
 		if (this.color == null ) { //DRAFT TODO
-			this.changeColor(other.color);
+			this._changeColor(other.color);
 		}
 		else {
 			if (!GenPath._canTransition(this.color, other.color)) {
